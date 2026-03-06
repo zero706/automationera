@@ -300,12 +300,12 @@ new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.tar
 function handleSubmit(){
   const e=document.getElementById('emailInput').value.trim();
   if(!e||!e.includes('@')){document.querySelector('.form-row').style.borderColor='rgba(255,69,69,0.5)';setTimeout(()=>document.querySelector('.form-row').style.borderColor='',2000);return;}
-  window.location.href='https://kazmiisrichwtf.systeme.io/86a9f335';
+  window.location.href='merci.html';
 }
 function handleSubmit2(){
   const e=document.getElementById('emailInput2').value.trim();
   if(!e||!e.includes('@')){document.querySelectorAll('.form-row')[1].style.borderColor='rgba(255,69,69,0.5)';setTimeout(()=>document.querySelectorAll('.form-row')[1].style.borderColor='',2000);return;}
-  window.location.href='https://kazmiisrichwtf.systeme.io/86a9f335';
+  window.location.href='merci.html';
 }
 document.getElementById('emailInput').addEventListener('keypress',e=>{if(e.key==='Enter')handleSubmit();});
 document.getElementById('emailInput2').addEventListener('keypress',e=>{if(e.key==='Enter')handleSubmit2();});
