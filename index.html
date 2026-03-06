@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutomationEra — 7 Outils IA Secrets (Édition 2026)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #F0D080;
+  --gold-pale: #F7E8B8;
+  --gold-dim: rgba(201,168,76,0.15);
+  --bg: #05050A;
+  --bg2: #09090F;
+  --text: #EDE8DF;
+  --muted: #6B6455;
+  --red: #FF4545;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.5;}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.35;}
+.page{position:relative;z-index:2;}
+
+/* TOP BAR */
+.topbar{background:linear-gradient(90deg,#0A0800,#1A1200,#0A0800);border-bottom:1px solid rgba(201,168,76,0.2);padding:10px 0;text-align:center;font-size:12px;letter-spacing:.12em;color:var(--gold-light);text-transform:uppercase;}
+.topbar span{color:var(--red);margin-right:6px;}
+
+/* NAV */
+nav{padding:24px 60px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.04);}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-mark{width:36px;height:36px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;}
+.logo-mark::before{content:'';position:absolute;width:20px;height:20px;border:1px solid rgba(201,168,76,0.3);border-radius:50%;}
+.logo-inner{width:8px;height:8px;background:var(--gold);border-radius:50%;animation:breathe 3s ease-in-out infinite;}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:.6;}}
+.logo-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--text);}
+.logo-name em{color:var(--gold);font-style:normal;}
+.nav-proof{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.stars{color:var(--gold);letter-spacing:-2px;}
+
+/* HERO */
+.hero{padding:100px 24px 80px;text-align:center;position:relative;max-width:900px;margin:0 auto;}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.07) 0%,transparent 65%);pointer-events:none;}
+.urgency-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,69,69,0.08);border:1px solid rgba(255,69,69,0.2);border-radius:100px;padding:8px 18px;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#FF7070;margin-bottom:32px;animation:fadeUp .7s ease both;}
+.urgency-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.hero-eyebrow{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;animation:fadeUp .7s .1s ease both;opacity:0;}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,8vw,96px);font-weight:300;line-height:1.0;letter-spacing:-.03em;margin-bottom:24px;animation:fadeUp .7s .2s ease both;opacity:0;}
+h1 .line2{display:block;font-style:italic;color:var(--gold-light);}
+h1 .line3{display:block;font-size:.55em;font-style:normal;font-weight:300;color:var(--muted);letter-spacing:.02em;margin-top:12px;}
+.hero-sub{font-size:16px;line-height:1.75;color:var(--muted);max-width:520px;margin:0 auto 48px;font-weight:300;animation:fadeUp .7s .3s ease both;opacity:0;}
+.hero-sub strong{color:var(--text);}
+
+/* FORM */
+.form-wrap{max-width:520px;margin:0 auto;animation:fadeUp .7s .4s ease both;opacity:0;}
+.form-row{display:flex;background:rgba(255,255,255,0.025);border:1px solid rgba(201,168,76,0.22);border-radius:6px;overflow:hidden;margin-bottom:12px;transition:border-color .3s,box-shadow .3s;}
+.form-row:focus-within{border-color:rgba(201,168,76,0.55);box-shadow:0 0 0 4px rgba(201,168,76,0.07);}
+.form-row input{flex:1;background:transparent;border:none;outline:none;padding:18px 22px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);}
+.form-row input::placeholder{color:var(--muted);}
+.cta-btn{background:linear-gradient(135deg,var(--gold) 0%,#E8B830 100%);border:none;padding:18px 28px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#05050A;cursor:pointer;white-space:nowrap;transition:filter .2s,transform .15s;flex-shrink:0;}
+.cta-btn:hover{filter:brightness(1.12);transform:scale(1.02);}
+.form-trust{display:flex;align-items:center;justify-content:center;gap:20px;font-size:12px;color:var(--muted);}
+.trust-item{display:flex;align-items:center;gap:5px;}
+.trust-icon{color:var(--gold);font-size:14px;}
+
+/* PROOF BAR */
+.proof-bar{max-width:700px;margin:56px auto 0;padding:24px 32px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;display:flex;align-items:center;justify-content:space-around;gap:24px;animation:fadeUp .7s .55s ease both;opacity:0;}
+.proof-item{text-align:center;}
+.proof-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--gold-light);display:block;line-height:1;}
+.proof-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.proof-divider{width:1px;height:40px;background:rgba(255,255,255,0.06);}
+
+/* PAIN */
+.pain{max-width:860px;margin:100px auto;padding:0 24px;text-align:center;}
+.section-tag{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-bottom:20px;}
+.pain h2{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,56px);font-weight:300;line-height:1.15;margin-bottom:48px;}
+.pain h2 em{color:var(--gold-light);font-style:italic;}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.pain-card{padding:32px 28px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);text-align:left;position:relative;overflow:hidden;transition:background .3s;}
+.pain-card:hover{background:rgba(255,255,255,0.03);}
+.pain-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.pain-card:hover::after{opacity:.4;}
+.pain-icon{font-size:28px;margin-bottom:16px;display:block;}
+.pain-title{font-family:'Syne',sans-serif;font-weight:600;font-size:14px;margin-bottom:10px;color:var(--text);}
+.pain-text{font-size:13px;color:var(--muted);line-height:1.65;}
+
+/* TOOLS */
+.tools{padding:80px 24px;max-width:1100px;margin:0 auto;}
+.tools-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:32px;}
+.tools-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:300;}
+.tools-title em{color:var(--gold);font-style:italic;}
+.tools-count{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:rgba(201,168,76,0.12);line-height:1;}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2px;}
+.tool{background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.04);padding:36px 32px;position:relative;overflow:hidden;transition:all .3s;cursor:default;}
+.tool:hover{background:rgba(201,168,76,0.04);border-color:rgba(201,168,76,0.12);transform:translateY(-2px);}
+.tool-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;}
+.tool-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:rgba(201,168,76,0.1);line-height:1;}
+.tool-badge{font-size:10px;letter-spacing:.15em;text-transform:uppercase;padding:5px 10px;border:1px solid rgba(201,168,76,0.18);border-radius:2px;color:rgba(201,168,76,0.7);}
+.tool-name{font-family:'Syne',sans-serif;font-weight:600;font-size:16px;margin-bottom:10px;color:var(--text);}
+.tool-desc{font-size:13.5px;color:var(--muted);line-height:1.7;}
+.tool.is-secret{background:rgba(201,168,76,0.03);border-color:rgba(201,168,76,0.15);position:relative;}
+.secret-blur{filter:blur(7px);opacity:.35;user-select:none;pointer-events:none;}
+.secret-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:var(--gold-light);white-space:nowrap;text-align:center;pointer-events:none;}
+
+/* TESTIMONIALS */
+.testimonials{padding:80px 24px;background:linear-gradient(180deg,transparent,rgba(201,168,76,0.03),transparent);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);}
+.testimonials-inner{max-width:900px;margin:0 auto;text-align:center;}
+.testi-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,40px);font-weight:300;margin-bottom:52px;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:left;}
+.testi{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:4px;padding:28px;}
+.testi-quote{font-family:'Cormorant Garamond',serif;font-size:38px;color:rgba(201,168,76,0.2);line-height:1;margin-bottom:4px;}
+.testi-text{font-size:14px;line-height:1.7;color:rgba(237,232,223,0.8);margin-bottom:20px;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:12px;}
+.testi-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),rgba(201,168,76,0.05));border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold);}
+.testi-name{color:var(--text);font-weight:500;font-size:13px;}
+.testi-role{color:var(--muted);font-size:12px;}
+.testi-stars{color:var(--gold);font-size:11px;letter-spacing:-1px;margin-top:2px;}
+
+/* FINAL CTA */
+.final-cta{text-align:center;padding:100px 24px;position:relative;overflow:hidden;}
+.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none;}
+.final-cta h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,72px);font-weight:300;line-height:1.1;margin-bottom:20px;}
+.final-cta h2 em{color:var(--gold-light);font-style:italic;}
+.final-cta p{color:var(--muted);font-size:16px;margin-bottom:48px;}
+.final-form{max-width:480px;margin:0 auto 24px;}
+.affiliate-note{font-size:12px;color:var(--muted);border-top:1px solid rgba(255,255,255,0.04);padding-top:24px;max-width:400px;margin:32px auto 0;}
+
+/* FOOTER */
+footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  nav{padding:20px 24px;}
+  .pain-grid,.testi-grid{grid-template-columns:1fr;}
+  .tools-header{flex-direction:column;align-items:flex-start;gap:8px;}
+  .proof-bar{flex-wrap:wrap;gap:16px;}
+  .proof-divider{display:none;}
+  footer{flex-direction:column;gap:12px;text-align:center;}
+  .form-row{flex-direction:column;}
+  .cta-btn{padding:16px;text-align:center;}
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="page">
+
+  <div class="topbar"><span>⚡</span>Offre limitée — La liste sera payante à partir du 1er avril 2026</div>
+
+  <nav>
+    <a href="#" class="logo">
+      <div class="logo-mark"><div class="logo-inner"></div></div>
+      <span class="logo-name">Automation<em>Era</em></span>
+    </a>
+    <div class="nav-proof">
+      <span class="stars">★★★★★</span>
+      <span>Utilisé par +2 400 entrepreneurs</span>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="urgency-pill"><span class="urgency-dot"></span>Gratuit seulement jusqu'au 1er avril</div>
+    <div class="hero-eyebrow">La ressource que les pros gardent pour eux</div>
+    <h1>Tu perds<span class="line2">10h par semaine.</span><span class="line3">Voici comment arrêter — gratuitement.</span></h1>
+    <p class="hero-sub"><strong>7 outils IA sélectionnés</strong> parmi des centaines testés. Ceux que les entrepreneurs qui automatisent leur business utilisent vraiment en 2026. Pas les outils connus — les vrais.</p>
+
+    <div class="form-wrap">
+      <div class="form-row">
+        <input type="email" placeholder="Entre ton adresse email..." id="emailInput"/>
+        <button class="cta-btn" onclick="handleSubmit()">Recevoir gratuitement →</button>
+      </div>
+      <div class="form-trust">
+        <span class="trust-item"><span class="trust-icon">🔒</span>100% Gratuit</span>
+        <span class="trust-item"><span class="trust-icon">⚡</span>Envoi instantané</span>
+        <span class="trust-item"><span class="trust-icon">✓</span>Sans spam</span>
+      </div>
+    </div>
+
+    <div class="proof-bar">
+      <div class="proof-item"><span class="proof-num" data-target="2400">0</span><span class="proof-label">Entrepreneurs inscrits</span></div>
+      <div class="proof-divider"></div>
+      <div class="proof-item"><span class="proof-num">10h</span><span class="proof-label">Gagnées / semaine</span></div>
+      <div class="proof-divider"></div>
+      <div class="proof-item"><span class="proof-num">7</span><span class="proof-label">Outils sélectionnés</span></div>
+      <div class="proof-divider"></div>
+      <div class="proof-item"><span class="proof-num">0€</span><span class="proof-label">Coût pour toi</span></div>
+    </div>
+  </section>
+
+  <section class="pain reveal">
+    <div class="section-tag">Pourquoi tu en as besoin</div>
+    <h2>Tu travailles dur.<br>Mais tu travailles <em>manuellement.</em></h2>
+    <div class="pain-grid">
+      <div class="pain-card"><span class="pain-icon">⏰</span><div class="pain-title">Tu passes des heures sur des tâches répétitives</div><div class="pain-text">Répondre aux mêmes emails, créer du contenu, gérer tes réseaux — autant de tâches qu'une IA peut faire en 30 secondes.</div></div>
+      <div class="pain-card"><span class="pain-icon">💸</span><div class="pain-title">Tu perds de l'argent sans le savoir</div><div class="pain-text">Chaque heure passée sur une tâche automatisable est une heure que tu n'investis pas dans ta croissance réelle.</div></div>
+      <div class="pain-card"><span class="pain-icon">🌊</span><div class="pain-title">Tu te noies dans les "outils IA"</div><div class="pain-text">Il existe des milliers d'outils IA. On a testé pour toi et gardé seulement les 7 qui changent vraiment la donne.</div></div>
+    </div>
+  </section>
+
+  <section class="tools reveal">
+    <div class="tools-header">
+      <div>
+        <div class="section-tag" style="margin-bottom:12px;">Ce que tu reçois</div>
+        <div class="tools-title">Les <em>7 outils</em> qui<br>automatisent tout</div>
+      </div>
+      <div class="tools-count">07</div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool"><div class="tool-header"><div class="tool-num">01</div><span class="tool-badge">Rédaction IA</span></div><div class="tool-name">Génération de contenu automatique</div><div class="tool-desc">Génère tes posts TikTok, newsletters et scripts en 30 secondes. Fini les heures à fixer un écran vide.</div></div>
+      <div class="tool"><div class="tool-header"><div class="tool-num">02</div><span class="tool-badge">Automatisation</span></div><div class="tool-name">Workflows sans code</div><div class="tool-desc">Connecte toutes tes apps entre elles et crée des automatisations puissantes sans écrire une seule ligne de code.</div></div>
+      <div class="tool"><div class="tool-header"><div class="tool-num">03</div><span class="tool-badge">Audio IA</span></div><div class="tool-name">Voix & narration IA</div><div class="tool-desc">Produis des voix-off professionnelles ou clone ta propre voix pour tous tes contenus vidéo.</div></div>
+      <div class="tool"><div class="tool-header"><div class="tool-num">04</div><span class="tool-badge">Tunnels</span></div><div class="tool-name">Machine à leads automatisée</div><div class="tool-desc">Capture des emails et génère des commissions en pilote automatique — même quand tu dors.</div></div>
+      <div class="tool"><div class="tool-header"><div class="tool-num">05</div><span class="tool-badge">Email Marketing</span></div><div class="tool-name">Séquences email qui convertissent</div><div class="tool-desc">Des emails automatiques qui nourrissent tes leads et les convertissent en clients sans intervention manuelle.</div></div>
+      <div class="tool"><div class="tool-header"><div class="tool-num">06</div><span class="tool-badge">Recherche IA</span></div><div class="tool-name">Analyse de marché instantanée</div><div class="tool-desc">Analyse ta concurrence, trouve tes niches rentables et génère des idées de contenu viral en quelques clics.</div></div>
+      <div class="tool is-secret">
+        <div class="secret-blur"><div class="tool-header"><div class="tool-num">07</div><span class="tool-badge">Exclusif</span></div><div class="tool-name">L'outil secret des pros</div><div class="tool-desc">Celui que les top affiliés français utilisent et que personne ne mentionne dans leurs contenus publics.</div></div>
+        <div class="secret-label">🔒 Réservé aux inscrits<br><span style="font-size:13px;color:var(--muted);">Reçois la liste pour découvrir</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials reveal">
+    <div class="testimonials-inner">
+      <div class="testi-title">Ce que disent ceux qui ont déjà automatisé</div>
+      <div class="testi-grid">
+        <div class="testi"><div class="testi-quote">"</div><div class="testi-text">J'ai récupéré 12h par semaine le premier mois. Ces outils ont littéralement transformé ma façon de travailler.</div><div class="testi-author"><div class="testi-avatar">M</div><div class="testi-info"><div class="testi-name">Mehdi R.</div><div class="testi-role">Entrepreneur, Lyon</div><div class="testi-stars">★★★★★</div></div></div></div>
+        <div class="testi"><div class="testi-quote">"</div><div class="testi-text">J'étais sceptique au départ. Mais l'outil n°2 à lui seul m'a fait économiser 8h par semaine sur mes tâches clients.</div><div class="testi-author"><div class="testi-avatar">S</div><div class="testi-info"><div class="testi-name">Sarah B.</div><div class="testi-role">Freelance, Paris</div><div class="testi-stars">★★★★★</div></div></div></div>
+        <div class="testi"><div class="testi-quote">"</div><div class="testi-text">L'outil secret n°7 m'a permis de générer mes premiers revenus passifs en moins de 2 semaines. Incroyable.</div><div class="testi-author"><div class="testi-avatar">K</div><div class="testi-info"><div class="testi-name">Karim T.</div><div class="testi-role">Creator, Bruxelles</div><div class="testi-stars">★★★★★</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta reveal">
+    <h2>Prêt à gagner<br><em>10h par semaine ?</em></h2>
+    <p>Rejoins les 2 400+ entrepreneurs qui ont déjà automatisé leur business.</p>
+    <div class="final-form">
+      <div class="form-row">
+        <input type="email" placeholder="ton@email.com" id="emailInput2"/>
+        <button class="cta-btn" onclick="handleSubmit2()">Recevoir maintenant →</button>
+      </div>
+    </div>
+    <div class="form-trust" style="justify-content:center;margin-bottom:32px;">
+      <span class="trust-item"><span class="trust-icon">🔒</span>100% Gratuit</span>
+      <span class="trust-item"><span class="trust-icon">⚡</span>Envoi instantané</span>
+      <span class="trust-item"><span class="trust-icon">✓</span>Désabonnement en 1 clic</span>
+    </div>
+    <div class="affiliate-note">ℹ️ Certains outils de cette liste sont des liens affiliés. Si tu les utilises, on reçoit une commission — sans coût supplémentaire pour toi.</div>
+  </section>
+
+  <footer>
+    <span>© 2026 AutomationEra — Tous droits réservés</span>
+    <span>Fait avec IA, pour les humains 🤖</span>
+  </footer>
+</div>
+
+<script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W,H,pts=[],mouse={x:-999,y:-999};
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.5+0.4;this.vx=(Math.random()-.5)*.2;this.vy=(Math.random()-.5)*.2;this.a=Math.random()*.4+.1;}
+function init(){pts=[];for(let i=0;i<100;i++)pts.push(new Pt());}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{
+    const dx=p.x-mouse.x,dy=p.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<150){p.x+=dx/d*.8;p.y+=dy/d*.8;}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${p.a})`;ctx.fill();
+  });
+  for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){
+    const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<130){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(201,168,76,${.07*(1-d/130)})`;ctx.lineWidth=.6;ctx.stroke();}
+  }}
+  requestAnimationFrame(draw);
+}
+window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+window.addEventListener('resize',()=>{resize();init();});
+resize();init();draw();
+
+function animateCounter(el,target){
+  let cur=0;const step=target/60;
+  const t=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(t);}el.textContent=Math.floor(cur).toLocaleString('fr');},25);
+}
+
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');e.target.querySelectorAll('[data-target]').forEach(c=>animateCounter(c,parseInt(c.dataset.target)));} });},{threshold:.1});
+reveals.forEach(r=>obs.observe(r));
+
+const proofBar=document.querySelector('.proof-bar');
+new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('[data-target]').forEach(c=>animateCounter(c,parseInt(c.dataset.target)));});},{threshold:.5}).observe(proofBar);
+
+function handleSubmit(){
+  const e=document.getElementById('emailInput').value.trim();
+  if(!e||!e.includes('@')){document.querySelector('.form-row').style.borderColor='rgba(255,69,69,0.5)';setTimeout(()=>document.querySelector('.form-row').style.borderColor='',2000);return;}
+  window.location.href='https://kazmiisrichwtf.systeme.io/86a9f335';
+}
+function handleSubmit2(){
+  const e=document.getElementById('emailInput2').value.trim();
+  if(!e||!e.includes('@')){document.querySelectorAll('.form-row')[1].style.borderColor='rgba(255,69,69,0.5)';setTimeout(()=>document.querySelectorAll('.form-row')[1].style.borderColor='',2000);return;}
+  window.location.href='https://kazmiisrichwtf.systeme.io/86a9f335';
+}
+document.getElementById('emailInput').addEventListener('keypress',e=>{if(e.key==='Enter')handleSubmit();});
+document.getElementById('emailInput2').addEventListener('keypress',e=>{if(e.key==='Enter')handleSubmit2();});
+</script>
+</body>
+</html>

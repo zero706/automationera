@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutomationEra — Merci !</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #F0D080;
+  --gold-pale: #F7E8B8;
+  --gold-dim: rgba(201,168,76,0.15);
+  --bg: #05050A;
+  --bg2: #09090F;
+  --text: #EDE8DF;
+  --muted: #6B6455;
+  --green: #4CAF82;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.5;}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.35;}
+.page{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;}
+
+/* NAV */
+nav{padding:24px 60px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.04);}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-mark{width:36px;height:36px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;}
+.logo-mark::before{content:'';position:absolute;width:20px;height:20px;border:1px solid rgba(201,168,76,0.3);border-radius:50%;}
+.logo-inner{width:8px;height:8px;background:var(--gold);border-radius:50%;animation:breathe 3s ease-in-out infinite;}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:.6;}}
+.logo-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--text);}
+.logo-name em{color:var(--gold);font-style:normal;}
+
+/* HERO */
+.hero{
+  flex:1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  padding:80px 24px;
+  position:relative;
+}
+
+.hero::before{
+  content:'';
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:800px;height:600px;
+  background:radial-gradient(ellipse,rgba(76,175,130,0.06) 0%,rgba(201,168,76,0.04) 40%,transparent 70%);
+  pointer-events:none;
+}
+
+/* SUCCESS BADGE */
+.success-ring{
+  width:100px;height:100px;
+  border-radius:50%;
+  border:1.5px solid rgba(76,175,130,0.3);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 40px;
+  position:relative;
+  animation:fadeUp .6s ease both;
+}
+
+.success-ring::before{
+  content:'';
+  position:absolute;inset:-8px;
+  border-radius:50%;
+  border:1px solid rgba(76,175,130,0.1);
+}
+
+.success-ring::after{
+  content:'';
+  position:absolute;inset:-16px;
+  border-radius:50%;
+  border:1px solid rgba(76,175,130,0.05);
+}
+
+.success-icon{
+  width:60px;height:60px;
+  border-radius:50%;
+  background:rgba(76,175,130,0.1);
+  border:1px solid rgba(76,175,130,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+  animation:popIn .5s .3s cubic-bezier(0.175,0.885,0.32,1.275) both;
+}
+
+@keyframes popIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+.tag-success{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(76,175,130,0.08);
+  border:1px solid rgba(76,175,130,0.2);
+  border-radius:100px;
+  padding:8px 18px;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:#6FCFA0;
+  margin-bottom:32px;
+  animation:fadeUp .6s .15s ease both;opacity:0;
+}
+
+.tag-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(40px,7vw,80px);
+  font-weight:300;line-height:1.05;letter-spacing:-.03em;
+  margin-bottom:20px;
+  animation:fadeUp .6s .25s ease both;opacity:0;
+}
+
+h1 em{font-style:italic;color:var(--gold-light);}
+
+.hero-sub{
+  font-size:17px;line-height:1.75;color:var(--muted);
+  max-width:500px;margin:0 auto 56px;font-weight:300;
+  animation:fadeUp .6s .35s ease both;opacity:0;
+}
+
+.hero-sub strong{color:var(--text);}
+
+/* STEPS */
+.steps{
+  display:flex;flex-direction:column;gap:0;
+  max-width:480px;width:100%;margin:0 auto 64px;
+  animation:fadeUp .6s .45s ease both;opacity:0;
+}
+
+.step{
+  display:flex;align-items:flex-start;gap:20px;
+  padding:24px 0;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  text-align:left;
+}
+
+.step:last-child{border-bottom:none;}
+
+.step-num{
+  width:32px;height:32px;flex-shrink:0;
+  border-radius:50%;
+  border:1px solid rgba(201,168,76,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;color:var(--gold);
+  margin-top:2px;
+}
+
+.step-content{}
+.step-title{font-family:'Syne',sans-serif;font-weight:600;font-size:14px;color:var(--text);margin-bottom:4px;}
+.step-text{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* CTA BUTTON */
+.cta-wrap{
+  animation:fadeUp .6s .55s ease both;opacity:0;
+}
+
+.cta-main{
+  display:inline-flex;align-items:center;gap:12px;
+  background:linear-gradient(135deg,var(--gold) 0%,#E8B830 100%);
+  border:none;
+  padding:18px 36px;
+  font-family:'Syne',sans-serif;
+  font-weight:700;font-size:14px;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:#05050A;
+  cursor:pointer;
+  border-radius:4px;
+  text-decoration:none;
+  transition:filter .2s,transform .15s;
+  margin-bottom:16px;
+  display:inline-flex;
+}
+
+.cta-main:hover{filter:brightness(1.12);transform:scale(1.02);}
+
+.cta-note{font-size:12px;color:var(--muted);}
+
+/* BONUS SECTION */
+.bonus{
+  max-width:700px;margin:80px auto;
+  padding:0 24px;
+  width:100%;
+}
+
+.bonus-card{
+  background:rgba(201,168,76,0.04);
+  border:1px solid rgba(201,168,76,0.12);
+  border-radius:6px;
+  padding:40px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.bonus-card::before{
+  content:'';
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:200px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+.bonus-label{
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;
+}
+
+.bonus-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(24px,3.5vw,36px);
+  font-weight:300;margin-bottom:16px;
+}
+
+.bonus-title em{font-style:italic;color:var(--gold-light);}
+
+.bonus-text{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:32px;max-width:440px;margin-left:auto;margin-right:auto;}
+
+.bonus-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid rgba(201,168,76,0.3);
+  padding:14px 28px;
+  font-family:'Syne',sans-serif;
+  font-weight:600;font-size:13px;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gold-light);
+  text-decoration:none;
+  border-radius:4px;
+  transition:background .2s,border-color .2s;
+}
+
+.bonus-btn:hover{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.5);}
+
+/* FOOTER */
+footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:768px){
+  nav{padding:20px 24px;}
+  footer{flex-direction:column;gap:12px;text-align:center;}
+  .bonus-card{padding:28px 20px;}
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">
+      <div class="logo-mark"><div class="logo-inner"></div></div>
+      <span class="logo-name">Automation<em>Era</em></span>
+    </a>
+    <span style="font-size:12px;color:var(--muted);letter-spacing:.08em;">MERCI 🎉</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="success-ring">
+      <div class="success-icon">✓</div>
+    </div>
+
+    <div class="tag-success">
+      <span class="tag-dot"></span>
+      Inscription confirmée
+    </div>
+
+    <h1>Tu as fait le<br><em>bon choix.</em></h1>
+
+    <p class="hero-sub">
+      Ta liste des <strong>7 outils IA</strong> arrive dans ta boîte mail dans les prochaines minutes.<br>
+      Vérifie tes spams si tu ne la reçois pas.
+    </p>
+
+    <!-- STEPS -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Vérifie ta boîte mail</div>
+          <div class="step-text">Un email de AutomationEra est en route. Ajoute-nous à tes contacts pour ne rien rater.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Télécharge ta liste PDF</div>
+          <div class="step-text">Le lien de téléchargement est dans l'email. 7 outils triés par catégorie avec les liens directs.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Commence par l'outil n°2</div>
+          <div class="step-text">La majorité de nos abonnés gagnent leurs premières heures avec l'outil d'automatisation n°2 de la liste.</div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </section>
+
+  <!-- BONUS -->
+  <section class="bonus">
+    <div class="bonus-card">
+      <div class="bonus-label">Bonus exclusif abonnés</div>
+      <div class="bonus-title">Va encore plus loin avec<br><em>Make.com</em></div>
+      <div class="bonus-text">
+        L'outil d'automatisation utilisé par +500 000 entreprises. Connecte toutes tes apps et automatise tes workflows sans coder — plan gratuit disponible.
+      </div>
+      <a href="https://www.make.com/en/register?pc=automation3r4" target="_blank" class="bonus-btn">
+        → Essayer Make.com gratuitement
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 AutomationEra — Tous droits réservés</span>
+    <span>Fait avec IA, pour les humains 🤖</span>
+  </footer>
+
+</div>
+
+<script>
+// CANVAS PARTICLES — identique à landing page
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W,H,pts=[],mouse={x:-999,y:-999};
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.5+0.4;this.vx=(Math.random()-.5)*.2;this.vy=(Math.random()-.5)*.2;this.a=Math.random()*.4+.1;}
+function init(){pts=[];for(let i=0;i<100;i++)pts.push(new Pt());}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{
+    const dx=p.x-mouse.x,dy=p.y-mouse.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<150){p.x+=dx/d*.8;p.y+=dy/d*.8;}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${p.a})`;ctx.fill();
+  });
+  for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){
+    const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<130){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(201,168,76,${.07*(1-d/130)})`;ctx.lineWidth=.6;ctx.stroke();}
+  }}
+  requestAnimationFrame(draw);
+}
+window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+window.addEventListener('resize',()=>{resize();init();});
+resize();init();draw();
+</script>
+</body>
+</html>
