@@ -300,17 +300,13 @@ new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.tar
 async function subscribeEmail(email, btnEl) {
   const originalText = btnEl.textContent;
   btnEl.style.opacity = "0.6";
-  const API_KEY = 'b8d13az6m676tocwfd3oi6kig1pewfo4l535cpns9pi6lkypkijd78ogfed0p3w1';
   btnEl.disabled = true;
   btnEl.textContent = 'Envoi...';
   try {
-    const res = await fetch('https://api.systeme.io/api/contacts', {
+    const res = await fetch('https://holy-queen-49f8.kazmiisrichwtf.workers.dev/', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': API_KEY
-      },
-      body: JSON.stringify({ email, fields: [], tags: ['Bienvenu'] })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
     });
     if (res.ok || res.status === 409) {
       window.location.href = 'merci.html';
