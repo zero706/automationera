@@ -298,6 +298,8 @@ const proofBar=document.querySelector('.proof-bar');
 new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('[data-target]').forEach(c=>animateCounter(c,parseInt(c.dataset.target)));});},{threshold:.5}).observe(proofBar);
 
 async function subscribeEmail(email, btnEl) {
+  const originalText = btnEl.textContent;
+  btnEl.style.opacity = "0.6";
   const API_KEY = 'b8d13az6m676tocwfd3oi6kig1pewfo4l535cpns9pi6lkypkijd78ogfed0p3w1';
   btnEl.disabled = true;
   btnEl.textContent = 'Envoi...';
@@ -313,12 +315,16 @@ async function subscribeEmail(email, btnEl) {
     if (res.ok || res.status === 409) {
       window.location.href = 'merci.html';
     } else {
-      throw new Error('Erreur API');
+      const errData = await res.json().catch(()=>({}));
+      console.error('API Error:', res.status, errData);
+      throw new Error(JSON.stringify(errData));
     }
   } catch(err) {
     btnEl.disabled = false;
-    btnEl.textContent = 'Recevoir gratuitement →';
-    alert('Une erreur est survenue, réessaie.');
+    btnEl.textContent = originalText;
+    btnEl.style.opacity = "1";
+    console.error('Subscribe error:', err);
+    alert('Erreur: ' + err.message);
   }
 }
 
