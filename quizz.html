@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutomationEra — Suis-je Remplaçable par l'IA ?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #F0D080;
+  --gold-pale: #F7E8B8;
+  --gold-dim: rgba(201,168,76,0.12);
+  --bg: #05050A;
+  --bg2: #09090F;
+  --text: #EDE8DF;
+  --muted: #6B6455;
+  --red: #FF4545;
+  --green: #4CAF50;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* GRAIN */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.4;}
+
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.25;}
+
+.page{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px;}
+
+/* NAV */
+nav{width:100%;max-width:800px;display:flex;align-items:center;justify-content:space-between;margin-bottom:60px;}
+.logo{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;letter-spacing:.06em;color:var(--text);text-decoration:none;}
+.logo em{color:var(--gold);font-style:normal;}
+.nav-badge{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid rgba(201,168,76,0.2);padding:5px 12px;border-radius:100px;}
+
+/* QUIZ CONTAINER */
+.quiz-wrap{width:100%;max-width:720px;}
+
+/* INTRO */
+.intro{text-align:center;animation:fadeUp .8s ease both;}
+.intro-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,69,69,0.08);border:1px solid rgba(255,69,69,0.2);border-radius:100px;padding:7px 16px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#FF7070;margin-bottom:28px;}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.intro h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,7vw,72px);font-weight:300;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px;}
+.intro h1 span{color:var(--gold-light);font-style:italic;}
+.intro p{font-size:15px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto 36px;}
+.btn-start{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--gold),#A87830);color:#05050A;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:16px 36px;border-radius:100px;border:none;cursor:pointer;transition:all .3s ease;}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3);}
+
+/* PROGRESS */
+.progress-bar{width:100%;height:2px;background:rgba(255,255,255,0.05);border-radius:2px;margin-bottom:48px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width .5s ease;}
+.step-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+
+/* QUESTION */
+.question-block{animation:fadeUp .5s ease both;}
+.question-text{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4vw,38px);font-weight:300;line-height:1.2;margin-bottom:36px;letter-spacing:-.01em;}
+.question-text em{color:var(--gold-light);font-style:italic;}
+
+/* OPTIONS */
+.options{display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.option{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:all .25s ease;position:relative;overflow:hidden;}
+.option::before{content:'';position:absolute;inset:0;background:var(--gold-dim);opacity:0;transition:opacity .25s;}
+.option:hover{border-color:rgba(201,168,76,0.3);transform:translateX(4px);}
+.option:hover::before{opacity:1;}
+.option.selected{border-color:var(--gold);background:rgba(201,168,76,0.08);}
+.option.selected::before{opacity:1;}
+.opt-letter{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0;transition:all .25s;}
+.option.selected .opt-letter{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.1);}
+.opt-text{font-size:14px;line-height:1.5;color:var(--text);}
+
+/* NEXT BTN */
+.btn-next{display:inline-flex;align-items:center;gap:10px;background:transparent;border:1px solid rgba(201,168,76,0.4);color:var(--gold-light);font-family:'Syne',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:14px 32px;border-radius:100px;cursor:pointer;transition:all .3s ease;opacity:0;pointer-events:none;}
+.btn-next.visible{opacity:1;pointer-events:all;}
+.btn-next:hover{background:var(--gold-dim);border-color:var(--gold);}
+.arrow{transition:transform .3s;}
+.btn-next:hover .arrow{transform:translateX(4px);}
+
+/* RESULT */
+.result-block{text-align:center;animation:fadeUp .7s ease both;}
+.result-score-ring{position:relative;width:160px;height:160px;margin:0 auto 36px;}
+.result-score-ring svg{transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:rgba(255,255,255,0.05);stroke-width:8;}
+.ring-fill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease;}
+.score-number{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.score-pct{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold-light);}
+.score-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+.result-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,48px);font-weight:300;margin-bottom:16px;line-height:1.1;}
+.result-title span{color:var(--gold-light);font-style:italic;}
+.result-desc{font-size:14px;color:var(--muted);line-height:1.8;max-width:520px;margin:0 auto 40px;}
+.result-badge{display:inline-block;background:var(--gold-dim);border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:8px 20px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:40px;}
+
+/* CTA RESULT */
+.result-cta{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:32px;max-width:520px;margin:0 auto 24px;}
+.result-cta h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text);}
+.result-cta p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px;}
+.quiz-form-row{display:flex;gap:10px;margin-top:16px;} .quiz-form-row input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:14px 20px;color:var(--text);font-family:"DM Sans",sans-serif;font-size:14px;outline:none;} .quiz-form-row input::placeholder{color:var(--muted);} .quiz-form-row button{background:linear-gradient(135deg,var(--gold),#A87830);color:#05050A;font-family:"Syne",sans-serif;font-weight:700;font-size:13px;padding:14px 24px;border-radius:100px;border:none;cursor:pointer;white-space:nowrap;} .btn-cta{display:block;background:linear-gradient(135deg,var(--gold),#A87830);color:#05050A;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:16px 32px;border-radius:100px;border:none;cursor:pointer;text-decoration:none;transition:all .3s;}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3);}
+.btn-restart{background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;margin-top:20px;padding:10px;transition:color .2s;}
+.btn-restart:hover{color:var(--text);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* HIDDEN */
+.hidden{display:none;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="page">
+  <nav>
+    <a href="index.html" class="logo">Automation<em>Era</em></a>
+    <span class="nav-badge">Quiz IA 2026</span>
+  </nav>
+
+  <div class="quiz-wrap">
+
+    <!-- INTRO -->
+    <div id="intro" class="intro">
+      <div class="intro-tag"><span class="pulse"></span> 2 minutes chrono</div>
+      <h1>Serez-vous <span>remplacé</span><br>par l'IA en 2026 ?</h1>
+      <p>7 questions pour mesurer votre niveau de risque face à l'automatisation. Résultat personnalisé offert.</p>
+      <button class="btn-start" onclick="startQuiz()">Découvrir mon score <span>→</span></button>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quiz" class="hidden">
+      <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+      <div class="step-label" id="stepLabel">Question 1 / 7</div>
+      <div class="question-block" id="questionBlock">
+        <div class="question-text" id="questionText"></div>
+        <div class="options" id="optionsContainer"></div>
+        <button class="btn-next" id="btnNext" onclick="nextQuestion()">Suivant <span class="arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="result" class="result-block hidden">
+      <div class="result-score-ring">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle class="ring-bg" cx="80" cy="80" r="70"/>
+          <circle class="ring-fill" id="ringFill" cx="80" cy="80" r="70" stroke-dasharray="440" stroke-dashoffset="440"/>
+        </svg>
+        <div class="score-number">
+          <span class="score-pct" id="scorePct">0%</span>
+          <span class="score-label">de risque</span>
+        </div>
+      </div>
+      <div class="result-badge" id="resultBadge"></div>
+      <h2 class="result-title" id="resultTitle"></h2>
+      <p class="result-desc" id="resultDesc"></p>
+      <div class="result-cta">
+        <h3>🎯 La solution concrète</h3>
+        <p>Découvre les 7 outils IA qui vont transformer votre façon de travailler — et faire de vous un acteur indispensable à l'ère de l'automatisation.</p>
+        <div class="quiz-form-row" id="quizFormRow"><input type="email" id="quizEmail" placeholder="Ton adresse email"/><button onclick="submitQuizEmail()">Recevoir →</button></div><p style="font-size:11px;color:var(--muted);margin-top:12px;">Gratuit. Aucun spam.</p>
+      </div>
+      <button class="btn-restart" onclick="restartQuiz()">↺ Refaire le quiz</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// PARTICLES
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+for(let i=0;i<60;i++){particles.push({x:Math.random()*2000,y:Math.random()*2000,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5,a:Math.random()*.5+.1});}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+    if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(201,168,76,${p.a})`;ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
+// QUIZ DATA
+const questions = [
+  {
+    q: "Votre travail principal consiste à <em>analyser et traiter des données</em> répétitives ?",
+    opts: ["Oui, c'est 80% de mon temps","Parfois, mais j'ai aussi des tâches créatives","Non, mon travail est très humain","Je suis entrepreneur / freelance"]
+  },
+  {
+    q: "Utilisez-vous déjà des <em>outils IA</em> dans votre quotidien professionnel ?",
+    opts: ["Jamais, je ne sais pas par où commencer","Parfois ChatGPT mais rien de structuré","Oui, quelques outils basiques","Oui, j'automatise activement mes processus"]
+  },
+  {
+    q: "Quelle est votre <em>vraie valeur ajoutée</em> que l'IA ne peut pas reproduire ?",
+    opts: ["Honnêtement, je ne sais pas","Ma créativité et mon intuition","Mes relations humaines et ma confiance","Ma capacité à apprendre et m'adapter vite"]
+  },
+  {
+    q: "Si votre secteur était automatisé à 50% demain, vous seriez...",
+    opts: ["Paniqué(e), je ne suis pas préparé(e)","Inquiet(e) mais j'ai quelques atouts","Relativement serein(e)","Prêt(e), j'anticipe déjà cette transition"]
+  },
+  {
+    q: "Combien d'heures par semaine perdez-vous sur des <em>tâches répétitives</em> ?",
+    opts: ["Plus de 20h — c'est énorme","Entre 10 et 20h","Entre 5 et 10h","Moins de 5h — j'ai déjà optimisé"]
+  },
+  {
+    q: "Avez-vous une <em>source de revenus en ligne</em> ou un business digital ?",
+    opts: ["Non, aucun","J'y pense mais je n'ai rien lancé","Oui, quelque chose de petit","Oui, c'est ma principale source de revenus"]
+  },
+  {
+    q: "Dans 5 ans, vous vous voyez...",
+    opts: ["Dans le même poste, en espérant que ça tienne","En reconversion forcée si l'IA avance trop","Avoir évolué grâce à l'IA, pas contre elle","Diriger un business automatisé et scalable"]
+  }
+];
+
+const scores = [[85,40,20,5],[80,50,25,5],[75,45,20,10],[80,50,25,5],[75,40,20,5],[70,55,25,5],[75,45,15,5]];
+
+let current = 0, totalScore = 0, selected = -1;
+
+function startQuiz(){
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = questions[current];
+  document.getElementById('stepLabel').textContent = `Question ${current+1} / ${questions.length}`;
+  document.getElementById('progress').style.width = `${(current/questions.length)*100}%`;
+  document.getElementById('questionText').innerHTML = q.q;
+  
+  const letters = ['A','B','C','D'];
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  q.opts.forEach((opt,i)=>{
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${opt}</div>`;
+    div.onclick = ()=>selectOption(i, div);
+    container.appendChild(div);
+  });
+  
+  selected = -1;
+  const btn = document.getElementById('btnNext');
+  btn.classList.remove('visible');
+  
+  // Animate in
+  document.getElementById('questionBlock').style.animation='none';
+  setTimeout(()=>{document.getElementById('questionBlock').style.animation='fadeUp .4s ease both';},10);
+}
+
+function selectOption(idx, el){
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  selected = idx;
+  document.getElementById('btnNext').classList.add('visible');
+}
+
+function nextQuestion(){
+  if(selected === -1) return;
+  totalScore += scores[current][selected];
+  current++;
+  if(current < questions.length){
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult(){
+  document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+  
+  const avg = Math.round(totalScore / questions.length);
+  
+  // Animate ring
+  setTimeout(()=>{
+    const ring = document.getElementById('ringFill');
+    const circumference = 440;
+    const offset = circumference - (avg/100)*circumference;
+    
+    if(avg >= 60) ring.style.stroke = '#FF4545';
+    else if(avg >= 35) ring.style.stroke = '#F0A030';
+    else ring.style.stroke = '#4CAF50';
+    
+    ring.style.strokeDashoffset = offset;
+    
+    let count = 0;
+    const interval = setInterval(()=>{
+      count += 2;
+      if(count >= avg){count=avg;clearInterval(interval);}
+      document.getElementById('scorePct').textContent = count + '%';
+    }, 20);
+  }, 300);
+
+  let badge, title, desc;
+  if(avg >= 65){
+    badge = '🔴 Risque Élevé';
+    title = 'Vous êtes <span>vulnérable</span><br>à l\'automatisation';
+    desc = 'Votre profil actuel présente un risque significatif face à l\'IA. Vos tâches sont largement automatisables et vous n\'avez pas encore développé les compétences pour rester compétitif. La bonne nouvelle ? Il n\'est pas trop tard — mais il faut agir maintenant.';
+  } else if(avg >= 35){
+    badge = '🟡 Risque Modéré';
+    title = 'Vous êtes à la <span>croisée des chemins</span>';
+    desc = 'Votre situation est intermédiaire. Vous avez des atouts humains réels, mais votre exposition à l\'automatisation reste significative. Avec les bons outils et une bonne stratégie, vous pouvez transformer cette menace en opportunité majeure.';
+  } else {
+    badge = '🟢 Risque Faible';
+    title = 'Vous êtes <span>bien positionné(e)</span><br>pour l\'ère IA';
+    desc = 'Bravo ! Votre profil montre une bonne résistance à l\'automatisation. Vous avez déjà une longueur d\'avance. Maintenant, l\'objectif est d\'aller encore plus loin en utilisant l\'IA comme levier de croissance plutôt que comme menace.';
+  }
+
+  document.getElementById('resultBadge').textContent = badge;
+  document.getElementById('resultTitle').innerHTML = title;
+  document.getElementById('resultDesc').textContent = desc;
+}
+
+
+async function submitQuizEmail(){
+  const e=document.getElementById('quizEmail').value.trim();
+  if(!e||!e.includes('@')){document.getElementById('quizFormRow').style.border='1px solid rgba(255,69,69,0.5)';return;}
+  try{
+    await fetch('https://api.systeme.io/api/contacts',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-API-Key':'b8d13az6m676tocwfd3oi6kig1pewfo4l535cpns9pi6lkypkijd78ogfed0p3w1'},
+      body:JSON.stringify({email:e,fields:[]})
+    });
+  }catch(err){console.log(err);}
+  window.location.href='merci.html';
+}
+function restartQuiz(){
+  current = 0; totalScore = 0; selected = -1;
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('progress').style.width = '0%';
+  document.getElementById('ringFill').style.strokeDashoffset = '440';
+  document.getElementById('quiz').classList.remove('hidden');
+  renderQuestion();
+}
+</script>
+</body>
+</html>
