@@ -302,26 +302,16 @@ async function subscribeEmail(email, btnEl) {
   btnEl.style.opacity = "0.6";
   btnEl.disabled = true;
   btnEl.textContent = 'Envoi...';
-  try {
-    const res = await fetch('https://holy-queen-49f8.kazmiisrichwtf.workers.dev/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    if (res.ok || res.status === 409) {
-      window.location.href = 'merci.html';
-    } else {
-      const errData = await res.json().catch(()=>({}));
-      console.error('API Error:', res.status, errData);
-      throw new Error(JSON.stringify(errData));
-    }
-  } catch(err) {
-    btnEl.disabled = false;
-    btnEl.textContent = originalText;
-    btnEl.style.opacity = "1";
-    console.error('Subscribe error:', err);
-    alert('Erreur: ' + err.message);
-  }
+  
+  // Envoie en arrière-plan sans attendre
+  fetch('https://holy-queen-49f8.kazmiisrichwtf.workers.dev/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  }).catch(() => {});
+
+  // Redirige immédiatement
+  setTimeout(() => { window.location.href = 'merci.html'; }, 800);
 }
 
 function handleSubmit(){
