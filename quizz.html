@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AutomationEra — Suis-je Remplaçable par l'IA ?</title>
+<meta name="description" content="7 questions pour mesurer ton niveau de risque face à l'automatisation IA. Résultat personnalisé + les outils adaptés à ton profil. Gratuit.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Suis-je remplaçable par l'IA ? — AutomationEra">
+<meta property="og:description" content="Quiz 2 minutes : découvre ton niveau de risque face à l'automatisation et les outils pour t'adapter.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -120,8 +126,8 @@ nav{width:100%;max-width:800px;display:flex;align-items:center;justify-content:s
     <!-- INTRO -->
     <div id="intro" class="intro">
       <div class="intro-tag"><span class="pulse"></span> 2 minutes chrono</div>
-      <h1>Serez-vous <span>remplacé</span><br>par l'IA en 2026 ?</h1>
-      <p>7 questions pour mesurer votre niveau de risque face à l'automatisation. Résultat personnalisé offert.</p>
+      <h1>Seras-tu <span>remplacé(e)</span><br>par l'IA en 2026 ?</h1>
+      <p>7 questions pour mesurer ton niveau de risque face à l'automatisation. Résultat personnalisé offert.</p>
       <button class="btn-start" onclick="startQuiz()">Découvrir mon score <span>→</span></button>
     </div>
 
@@ -153,8 +159,10 @@ nav{width:100%;max-width:800px;display:flex;align-items:center;justify-content:s
       <p class="result-desc" id="resultDesc"></p>
       <div class="result-cta">
         <h3>🎯 La solution concrète</h3>
-        <p>Découvre les 7 outils IA qui vont transformer votre façon de travailler — et faire de vous un acteur indispensable à l'ère de l'automatisation.</p>
-        <div class="quiz-form-row" id="quizFormRow"><input type="email" id="quizEmail" placeholder="Ton adresse email"/><button onclick="submitQuizEmail()">Recevoir →</button></div><p style="font-size:11px;color:var(--muted);margin-top:12px;">Gratuit. Aucun spam.</p>
+        <p>Découvre les 7 outils IA qui vont transformer ta façon de travailler — et faire de toi un acteur indispensable à l'ère de l'automatisation.</p>
+        <div class="quiz-form-row" id="quizFormRow"><input type="email" id="quizEmail" placeholder="Ton adresse email"/><button id="quizSubmitBtn" onclick="submitQuizEmail()">Recevoir →</button></div>
+        <p style="font-size:11px;color:var(--muted);margin-top:10px;">Gratuit. Sans spam. Désabonnement en 1 clic.</p>
+        <p style="font-size:10px;color:var(--muted);opacity:.7;margin-top:6px;">En t'inscrivant, tu acceptes de recevoir des emails de AutomationEra.</p>
       </div>
       <button class="btn-restart" onclick="restartQuiz()">↺ Refaire le quiz</button>
     </div>
@@ -186,31 +194,31 @@ draw();
 // QUIZ DATA
 const questions = [
   {
-    q: "Votre travail principal consiste à <em>analyser et traiter des données</em> répétitives ?",
+    q: "Ton travail principal consiste à <em>analyser et traiter des données</em> répétitives ?",
     opts: ["Oui, c'est 80% de mon temps","Parfois, mais j'ai aussi des tâches créatives","Non, mon travail est très humain","Je suis entrepreneur / freelance"]
   },
   {
-    q: "Utilisez-vous déjà des <em>outils IA</em> dans votre quotidien professionnel ?",
+    q: "Utilises-tu déjà des <em>outils IA</em> dans ton quotidien professionnel ?",
     opts: ["Jamais, je ne sais pas par où commencer","Parfois ChatGPT mais rien de structuré","Oui, quelques outils basiques","Oui, j'automatise activement mes processus"]
   },
   {
-    q: "Quelle est votre <em>vraie valeur ajoutée</em> que l'IA ne peut pas reproduire ?",
+    q: "Quelle est ta <em>vraie valeur ajoutée</em> que l'IA ne peut pas reproduire ?",
     opts: ["Honnêtement, je ne sais pas","Ma créativité et mon intuition","Mes relations humaines et ma confiance","Ma capacité à apprendre et m'adapter vite"]
   },
   {
-    q: "Si votre secteur était automatisé à 50% demain, vous seriez...",
+    q: "Si ton secteur était automatisé à 50% demain, tu serais...",
     opts: ["Paniqué(e), je ne suis pas préparé(e)","Inquiet(e) mais j'ai quelques atouts","Relativement serein(e)","Prêt(e), j'anticipe déjà cette transition"]
   },
   {
-    q: "Combien d'heures par semaine perdez-vous sur des <em>tâches répétitives</em> ?",
+    q: "Combien d'heures par semaine perds-tu sur des <em>tâches répétitives</em> ?",
     opts: ["Plus de 20h — c'est énorme","Entre 10 et 20h","Entre 5 et 10h","Moins de 5h — j'ai déjà optimisé"]
   },
   {
-    q: "Avez-vous une <em>source de revenus en ligne</em> ou un business digital ?",
+    q: "As-tu une <em>source de revenus en ligne</em> ou un business digital ?",
     opts: ["Non, aucun","J'y pense mais je n'ai rien lancé","Oui, quelque chose de petit","Oui, c'est ma principale source de revenus"]
   },
   {
-    q: "Dans 5 ans, vous vous voyez...",
+    q: "Dans 5 ans, tu te vois...",
     opts: ["Dans le même poste, en espérant que ça tienne","En reconversion forcée si l'IA avance trop","Avoir évolué grâce à l'IA, pas contre elle","Diriger un business automatisé et scalable"]
   }
 ];
@@ -298,16 +306,16 @@ function showResult(){
   let badge, title, desc;
   if(avg >= 65){
     badge = '🔴 Risque Élevé';
-    title = 'Vous êtes <span>vulnérable</span><br>à l\'automatisation';
-    desc = 'Votre profil actuel présente un risque significatif face à l\'IA. Vos tâches sont largement automatisables et vous n\'avez pas encore développé les compétences pour rester compétitif. La bonne nouvelle ? Il n\'est pas trop tard — mais il faut agir maintenant.';
+    title = 'Tu es <span>vulnérable</span><br>à l\'automatisation';
+    desc = 'Ton profil actuel présente un risque significatif face à l\'IA. Tes tâches sont largement automatisables et tu n\'as pas encore développé les compétences pour rester compétitif(ve). La bonne nouvelle ? Il n\'est pas trop tard — mais il faut agir maintenant.';
   } else if(avg >= 35){
     badge = '🟡 Risque Modéré';
-    title = 'Vous êtes à la <span>croisée des chemins</span>';
-    desc = 'Votre situation est intermédiaire. Vous avez des atouts humains réels, mais votre exposition à l\'automatisation reste significative. Avec les bons outils et une bonne stratégie, vous pouvez transformer cette menace en opportunité majeure.';
+    title = 'Tu es à la <span>croisée des chemins</span>';
+    desc = 'Ta situation est intermédiaire. Tu as des atouts humains réels, mais ton exposition à l\'automatisation reste significative. Avec les bons outils et une bonne stratégie, tu peux transformer cette menace en opportunité majeure.';
   } else {
     badge = '🟢 Risque Faible';
-    title = 'Vous êtes <span>bien positionné(e)</span><br>pour l\'ère IA';
-    desc = 'Bravo ! Votre profil montre une bonne résistance à l\'automatisation. Vous avez déjà une longueur d\'avance. Maintenant, l\'objectif est d\'aller encore plus loin en utilisant l\'IA comme levier de croissance plutôt que comme menace.';
+    title = 'Tu es <span>bien positionné(e)</span><br>pour l\'ère IA';
+    desc = 'Bravo ! Ton profil montre une bonne résistance à l\'automatisation. Tu as déjà une longueur d\'avance. Maintenant, l\'objectif est d\'aller encore plus loin en utilisant l\'IA comme levier de croissance plutôt que comme menace.';
   }
 
   document.getElementById('resultBadge').textContent = badge;
@@ -316,17 +324,28 @@ function showResult(){
 }
 
 
+function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);}
+
 async function submitQuizEmail(){
   const e=document.getElementById('quizEmail').value.trim();
-  if(!e||!e.includes('@')){document.getElementById('quizFormRow').style.border='1px solid rgba(255,69,69,0.5)';return;}
+  const btn=document.getElementById('quizSubmitBtn');
+  if(!isValidEmail(e)){
+    const row=document.getElementById('quizFormRow');
+    row.style.border='1px solid rgba(255,69,69,0.5)';
+    row.style.boxShadow='0 0 0 3px rgba(255,69,69,0.08)';
+    setTimeout(()=>{row.style.border='';row.style.boxShadow='';},2000);
+    return;
+  }
+  btn.textContent='Envoi…';btn.disabled=true;btn.style.opacity='.7';
+  const avg = Math.round(totalScore / questions.length);
   try{
-    await fetch('https://api.systeme.io/api/contacts',{
+    fetch('https://api.systeme.io/api/contacts',{
       method:'POST',
       headers:{'Content-Type':'application/json','X-API-Key':'b8d13az6m676tocwfd3oi6kig1pewfo4l535cpns9pi6lkypkijd78ogfed0p3w1'},
       body:JSON.stringify({email:e,fields:[]})
-    });
-  }catch(err){console.log(err);}
-  window.location.href='merci.html';
+    }).catch(()=>{});
+  }catch(err){}
+  setTimeout(()=>{ window.location.href='merci.html?score='+avg; }, 700);
 }
 function restartQuiz(){
   current = 0; totalScore = 0; selected = -1;

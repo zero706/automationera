@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutomationEra — Merci !</title>
+<title>AutomationEra — Bienvenue dans l'automatisation !</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Ta liste des 7 outils IA arrive dans ta boîte mail. Bienvenue dans la communauté AutomationEra.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -238,10 +240,47 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
 /* ANIMATIONS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 
+/* SCORE BANNER */
+.score-banner{display:inline-flex;align-items:center;gap:10px;border-radius:100px;padding:8px 20px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:28px;animation:fadeUp .6s .1s ease both;opacity:0;}
+.score-banner.high{background:rgba(255,69,69,0.08);border:1px solid rgba(255,69,69,0.2);color:#FF7070;}
+.score-banner.mid{background:rgba(240,160,48,0.08);border:1px solid rgba(240,160,48,0.2);color:#F0A030;}
+.score-banner.low{background:rgba(76,175,130,0.08);border:1px solid rgba(76,175,130,0.2);color:#6FCFA0;}
+
+/* SOCIAL SHARE */
+.share-section{max-width:580px;margin:0 auto 80px;padding:0 24px;text-align:center;}
+.share-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:8px;}
+.share-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+.share-buttons{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;}
+.share-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:100px;font-family:'Syne',sans-serif;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid;transition:all .2s;cursor:pointer;}
+.share-btn.tw{color:#1DA1F2;border-color:rgba(29,161,242,0.25);background:rgba(29,161,242,0.06);}
+.share-btn.tw:hover{background:rgba(29,161,242,0.12);border-color:rgba(29,161,242,0.4);}
+.share-btn.wa{color:#25D366;border-color:rgba(37,211,102,0.25);background:rgba(37,211,102,0.06);}
+.share-btn.wa:hover{background:rgba(37,211,102,0.12);border-color:rgba(37,211,102,0.4);}
+.share-btn.li{color:#0A66C2;border-color:rgba(10,102,194,0.25);background:rgba(10,102,194,0.06);}
+.share-btn.li:hover{background:rgba(10,102,194,0.12);border-color:rgba(10,102,194,0.4);}
+.share-btn.cp{color:var(--gold);border-color:rgba(201,168,76,0.25);background:rgba(201,168,76,0.06);}
+.share-btn.cp:hover{background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.4);}
+
+/* AFFILIATE GRID */
+.affiliate-grid{max-width:700px;margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.aff-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:28px;text-align:center;position:relative;overflow:hidden;transition:border-color .2s;}
+.aff-card:hover{border-color:rgba(201,168,76,0.15);}
+.aff-card.featured{background:rgba(201,168,76,0.04);border-color:rgba(201,168,76,0.12);}
+.aff-card.featured::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.aff-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.aff-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;margin-bottom:8px;}
+.aff-title em{color:var(--gold-light);font-style:italic;}
+.aff-text{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:20px;}
+.aff-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,168,76,0.3);padding:10px 20px;font-family:'Syne',sans-serif;font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-light);text-decoration:none;border-radius:4px;transition:all .2s;}
+.aff-btn:hover{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.5);}
+.aff-badge{position:absolute;top:12px;right:12px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.2);border-radius:100px;padding:3px 10px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
+
 @media(max-width:768px){
   nav{padding:20px 24px;}
   footer{flex-direction:column;gap:12px;text-align:center;}
   .bonus-card{padding:28px 20px;}
+  .affiliate-grid{grid-template-columns:1fr;}
+  .share-buttons{gap:8px;}
 }
 </style>
 </head>
@@ -269,6 +308,8 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
       <span class="tag-dot"></span>
       Inscription confirmée
     </div>
+
+    <div id="scoreBanner" class="score-banner" style="display:none;"></div>
 
     <h1>Tu as fait le<br><em>bon choix.</em></h1>
 
@@ -306,19 +347,34 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
 
   </section>
 
-  <!-- BONUS -->
-  <section class="bonus">
-    <div class="bonus-card">
-      <div class="bonus-label">Bonus exclusif abonnés</div>
-      <div class="bonus-title">Va encore plus loin avec<br><em>Make.com</em></div>
-      <div class="bonus-text">
-        L'outil d'automatisation utilisé par +500 000 entreprises. Connecte toutes tes apps et automatise tes workflows sans coder — plan gratuit disponible.
-      </div>
-      <a href="https://www.make.com/en/register?pc=automation3r4" target="_blank" class="bonus-btn">
-        → Essayer Make.com gratuitement
-      </a>
+  <!-- SOCIAL SHARE -->
+  <section class="share-section">
+    <div class="share-title">Partage à un ami qui en a besoin</div>
+    <p class="share-sub">Chaque entrepreneur qui automatise son business gagne du temps — et toi aussi en leur partageant ça.</p>
+    <div class="share-buttons">
+      <a class="share-btn tw" href="https://twitter.com/intent/tweet?text=J%27ai%20trouv%C3%A9%20les%207%20outils%20IA%20que%20les%20pros%20utilisent%20vraiment%20pour%20gagner%2010h%2Fsemaine%20%F0%9F%94%A5%20%E2%80%94%20gratuit%20sur%20automationera.fr&url=https%3A%2F%2Fautomationera.fr" target="_blank" rel="noopener noreferrer">𝕏 Twitter</a>
+      <a class="share-btn wa" href="https://wa.me/?text=J%27ai%20trouv%C3%A9%20les%207%20outils%20IA%20pour%20gagner%2010h%2Fsemaine%20%E2%80%94%20totalement%20gratuit%20%3A%20https%3A%2F%2Fautomationera.fr" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <a class="share-btn li" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fautomationera.fr" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <button class="share-btn cp" id="copyBtn" onclick="copyLink()">Copier le lien</button>
     </div>
   </section>
+
+  <!-- AFFILIATE OFFERS -->
+  <div class="affiliate-grid">
+    <div class="aff-card featured">
+      <span class="aff-badge">Outil n°2</span>
+      <div class="aff-label">Automatisation no-code</div>
+      <div class="aff-title">Commence avec<br><em>Make.com</em></div>
+      <div class="aff-text">L'outil utilisé par +500 000 entreprises. Connecte toutes tes apps et automatise sans coder. Plan gratuit disponible.</div>
+      <a href="https://www.make.com/en/register?pc=automation3r4" target="_blank" rel="noopener noreferrer" class="aff-btn">→ Essayer gratuitement</a>
+    </div>
+    <div class="aff-card">
+      <div class="aff-label">Email & Funnels</div>
+      <div class="aff-title">Scale avec<br><em>Systeme.io</em></div>
+      <div class="aff-text">La plateforme tout-en-un pour créer tes tunnels, gérer tes emails et vendre en ligne. Gratuit jusqu'à 2 000 contacts.</div>
+      <a href="https://systeme.io/?sa=sa0086875082e4b06cd67b4f9f57d91e40b9fc5e63" target="_blank" rel="noopener noreferrer" class="aff-btn">→ Démarrer gratuitement</a>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer>
@@ -329,6 +385,36 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
 </div>
 
 <script>
+// SCORE PERSONALIZATION
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const score = parseInt(params.get('score'));
+  if(!isNaN(score)){
+    const banner = document.getElementById('scoreBanner');
+    banner.style.display = 'inline-flex';
+    if(score >= 65){
+      banner.className = 'score-banner high';
+      banner.textContent = '🔴 Score de risque : ' + score + '% — Agis maintenant';
+    } else if(score >= 35){
+      banner.className = 'score-banner mid';
+      banner.textContent = '🟡 Score de risque : ' + score + '% — Tu es à la croisée';
+    } else {
+      banner.className = 'score-banner low';
+      banner.textContent = '🟢 Score de risque : ' + score + '% — Bien positionné(e)';
+    }
+  }
+})();
+
+// COPY LINK
+function copyLink(){
+  navigator.clipboard.writeText('https://automationera.fr').then(()=>{
+    const btn = document.getElementById('copyBtn');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copié !';
+    setTimeout(()=>btn.textContent=orig, 2000);
+  }).catch(()=>{});
+}
+
 // CANVAS PARTICLES — identique à landing page
 const canvas=document.getElementById('c');
 const ctx=canvas.getContext('2d');

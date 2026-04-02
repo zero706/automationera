@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AutomationEra — 7 Outils IA Secrets (Édition 2026)</title>
+<meta name="description" content="Découvre les 7 outils IA que les meilleurs entrepreneurs utilisent pour gagner 10h par semaine. Gratuit — liste envoyée par email.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://automationera.fr">
+<meta property="og:title" content="AutomationEra — 7 Outils IA pour gagner 10h/semaine">
+<meta property="og:description" content="La liste que les pros gardent pour eux. 100% gratuit, envoyée directement dans ta boîte mail.">
+<meta property="og:image" content="https://automationera.fr/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="7 Outils IA Secrets — AutomationEra">
+<meta name="twitter:description" content="Gagne 10h par semaine avec les outils IA que personne ne mentionne. Gratuit.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -135,6 +145,50 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
 .reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
+/* COUNTDOWN */
+.countdown{display:inline-flex;align-items:center;gap:4px;margin-left:10px;font-variant-numeric:tabular-nums;}
+.cd-unit{display:flex;flex-direction:column;align-items:center;background:rgba(255,69,69,0.12);border:1px solid rgba(255,69,69,0.22);border-radius:4px;padding:2px 7px;min-width:36px;}
+.cd-num{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#FF7070;line-height:1.2;}
+.cd-label{font-size:8px;letter-spacing:.08em;color:rgba(255,112,112,0.6);text-transform:uppercase;}
+.cd-sep{color:rgba(255,112,112,0.4);font-size:12px;margin-bottom:2px;}
+
+/* GDPR NOTE */
+.gdpr-note{font-size:11px;color:var(--muted);margin-top:10px;text-align:center;opacity:.75;}
+.gdpr-note a{color:var(--muted);text-decoration:underline;text-underline-offset:2px;}
+
+/* QUIZ BRIDGE */
+.quiz-bridge{max-width:860px;margin:0 auto 100px;padding:0 24px;}
+.quiz-bridge-inner{background:linear-gradient(135deg,rgba(201,168,76,0.05),rgba(201,168,76,0.02));border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:48px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;position:relative;overflow:hidden;}
+.quiz-bridge-inner::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.quiz-bridge-text{}
+.quiz-bridge-tag{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,168,76,0.6);margin-bottom:12px;}
+.quiz-bridge-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3.5vw,34px);font-weight:300;line-height:1.15;margin-bottom:10px;}
+.quiz-bridge-title em{color:var(--gold-light);font-style:italic;}
+.quiz-bridge-sub{font-size:13px;color:var(--muted);line-height:1.6;max-width:380px;}
+.quiz-bridge-cta{flex-shrink:0;}
+.quiz-btn{display:inline-flex;align-items:center;gap:10px;background:transparent;border:1px solid rgba(201,168,76,0.4);color:var(--gold-light);font-family:'Syne',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:16px 28px;border-radius:4px;text-decoration:none;transition:all .3s;white-space:nowrap;}
+.quiz-btn:hover{background:rgba(201,168,76,0.08);border-color:var(--gold);transform:translateY(-1px);}
+
+/* EXIT-INTENT POPUP */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px);}
+.popup-overlay.active{opacity:1;pointer-events:all;}
+.popup-box{background:#0D0D15;border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:48px 40px;max-width:520px;width:90%;position:relative;transform:translateY(20px);transition:transform .3s;text-align:center;}
+.popup-overlay.active .popup-box{transform:translateY(0);}
+.popup-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;padding:4px 8px;transition:color .2s;}
+.popup-close:hover{color:var(--text);}
+.popup-icon{font-size:36px;margin-bottom:16px;}
+.popup-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,36px);font-weight:300;line-height:1.15;margin-bottom:12px;}
+.popup-title em{color:var(--gold-light);font-style:italic;}
+.popup-sub{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:28px;}
+.popup-form{display:flex;flex-direction:column;gap:10px;}
+.popup-input{background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.25);border-radius:6px;padding:15px 18px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;text-align:center;}
+.popup-input:focus{border-color:rgba(201,168,76,0.5);}
+.popup-input::placeholder{color:var(--muted);}
+.popup-cta-btn{background:linear-gradient(135deg,var(--gold) 0%,#E8B830 100%);border:none;padding:16px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#05050A;cursor:pointer;border-radius:6px;transition:filter .2s;}
+.popup-cta-btn:hover{filter:brightness(1.1);}
+.popup-skip{background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;margin-top:6px;letter-spacing:.06em;text-transform:uppercase;padding:6px;transition:color .2s;}
+.popup-skip:hover{color:var(--text);}
+
 @media(max-width:768px){
   nav{padding:20px 24px;}
   .pain-grid,.testi-grid{grid-template-columns:1fr;}
@@ -144,6 +198,10 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
   footer{flex-direction:column;gap:12px;text-align:center;}
   .form-row{flex-direction:column;}
   .cta-btn{padding:16px;text-align:center;}
+  .quiz-bridge-inner{flex-direction:column;text-align:center;padding:32px 24px;}
+  .quiz-bridge-sub{max-width:100%;}
+  .popup-box{padding:32px 24px;}
+  .countdown{display:none;}
 }
 </style>
 </head>
@@ -151,7 +209,7 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
 <canvas id="c"></canvas>
 <div class="page">
 
-  <div class="topbar"><span>⚡</span>Offre limitée — La liste sera payante à partir du 1er avril 2026</div>
+  <div class="topbar"><span>⚡</span>Offre limitée — La liste sera payante dans <div class="countdown" id="countdown"><div class="cd-unit"><span class="cd-num" id="cd-j">--</span><span class="cd-label">j</span></div><span class="cd-sep">:</span><div class="cd-unit"><span class="cd-num" id="cd-h">--</span><span class="cd-label">h</span></div><span class="cd-sep">:</span><div class="cd-unit"><span class="cd-num" id="cd-m">--</span><span class="cd-label">m</span></div><span class="cd-sep">:</span><div class="cd-unit"><span class="cd-num" id="cd-s">--</span><span class="cd-label">s</span></div></div></div>
 
   <nav>
     <a href="#" class="logo">
@@ -165,7 +223,7 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
   </nav>
 
   <section class="hero">
-    <div class="urgency-pill"><span class="urgency-dot"></span>Gratuit seulement jusqu'au 1er avril</div>
+    <div class="urgency-pill"><span class="urgency-dot"></span>Gratuit — Accès payant très bientôt</div>
     <div class="hero-eyebrow">La ressource que les pros gardent pour eux</div>
     <h1>Tu perds<span class="line2">10h par semaine.</span><span class="line3">Voici comment arrêter — gratuitement.</span></h1>
     <p class="hero-sub"><strong>7 outils IA sélectionnés</strong> parmi des centaines testés. Ceux que les entrepreneurs qui automatisent leur business utilisent vraiment en 2026. Pas les outils connus — les vrais.</p>
@@ -180,6 +238,7 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
         <span class="trust-item"><span class="trust-icon">⚡</span>Envoi instantané</span>
         <span class="trust-item"><span class="trust-icon">✓</span>Sans spam</span>
       </div>
+      <p class="gdpr-note">En t'inscrivant, tu acceptes de recevoir des emails de AutomationEra. Désabonnement en 1 clic à tout moment.</p>
     </div>
 
     <div class="proof-bar">
@@ -236,20 +295,34 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
     </div>
   </section>
 
+  <section class="quiz-bridge reveal">
+    <div class="quiz-bridge-inner">
+      <div class="quiz-bridge-text">
+        <div class="quiz-bridge-tag">Test gratuit — 2 minutes</div>
+        <div class="quiz-bridge-title">Suis-je <em>remplaçable</em><br>par l'IA en 2026 ?</div>
+        <p class="quiz-bridge-sub">7 questions pour mesurer ton niveau de risque face à l'automatisation. Résultat personnalisé + les outils adaptés à ton profil.</p>
+      </div>
+      <div class="quiz-bridge-cta">
+        <a href="quizz.html" class="quiz-btn">Faire le quiz →</a>
+      </div>
+    </div>
+  </section>
+
   <section class="final-cta reveal">
     <h2>Prêt à gagner<br><em>10h par semaine ?</em></h2>
-    <p>Rejoins les 2 400+ entrepreneurs qui ont déjà automatisé leur business.</p>
+    <p>Rejoins les <strong style="color:var(--text);">2 847+</strong> entrepreneurs qui ont déjà automatisé leur business.</p>
     <div class="final-form">
       <div class="form-row">
         <input type="email" placeholder="ton@email.com" id="emailInput2"/>
         <button class="cta-btn" onclick="handleSubmit2()">Recevoir maintenant →</button>
       </div>
     </div>
-    <div class="form-trust" style="justify-content:center;margin-bottom:32px;">
+    <div class="form-trust" style="justify-content:center;margin-bottom:16px;">
       <span class="trust-item"><span class="trust-icon">🔒</span>100% Gratuit</span>
       <span class="trust-item"><span class="trust-icon">⚡</span>Envoi instantané</span>
       <span class="trust-item"><span class="trust-icon">✓</span>Désabonnement en 1 clic</span>
     </div>
+    <p class="gdpr-note" style="margin-bottom:24px;">En t'inscrivant, tu acceptes de recevoir des emails de AutomationEra. Désabonnement en 1 clic à tout moment.</p>
     <div class="affiliate-note">ℹ️ Certains outils de cette liste sont des liens affiliés. Si tu les utilises, on reçoit une commission — sans coût supplémentaire pour toi.</div>
   </section>
 
@@ -259,7 +332,23 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
   </footer>
 </div>
 
+<!-- EXIT-INTENT POPUP -->
+<div class="popup-overlay" id="exitPopup">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <div class="popup-icon">🔒</div>
+    <h2 class="popup-title">Attends — tu pars<br><em>sans ta liste ?</em></h2>
+    <p class="popup-sub">Les 7 outils que les meilleurs entrepreneurs utilisent pour gagner 10h/semaine. <strong style="color:var(--text);">Gratuit</strong>, envoyé directement dans ta boîte.</p>
+    <div class="popup-form">
+      <input type="email" class="popup-input" id="popupEmail" placeholder="ton@email.com" />
+      <button class="popup-cta-btn" onclick="handlePopupSubmit()">Recevoir ma liste gratuitement →</button>
+      <button class="popup-skip" onclick="closePopup()">Non merci, je préfère continuer à perdre du temps</button>
+    </div>
+  </div>
+</div>
+
 <script>
+// PARTICLES
 const canvas=document.getElementById('c');
 const ctx=canvas.getContext('2d');
 let W,H,pts=[],mouse={x:-999,y:-999};
@@ -285,47 +374,106 @@ window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
 window.addEventListener('resize',()=>{resize();init();});
 resize();init();draw();
 
+// COUNTDOWN TIMER
+(function(){
+  const deadline = new Date('2026-04-30T23:59:59');
+  function pad(n){return String(n).padStart(2,'0');}
+  function tick(){
+    const now = new Date(), diff = deadline - now;
+    if(diff <= 0){
+      document.getElementById('countdown').innerHTML = '<span style="color:#FF7070;font-size:12px;letter-spacing:.06em;">Accès bientôt payant</span>';
+      return;
+    }
+    const d = Math.floor(diff/864e5);
+    const h = Math.floor((diff%864e5)/36e5);
+    const m = Math.floor((diff%36e5)/6e4);
+    const s = Math.floor((diff%6e4)/1e3);
+    document.getElementById('cd-j').textContent = pad(d);
+    document.getElementById('cd-h').textContent = pad(h);
+    document.getElementById('cd-m').textContent = pad(m);
+    document.getElementById('cd-s').textContent = pad(s);
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+// COUNTER ANIMATION
 function animateCounter(el,target){
   let cur=0;const step=target/60;
   const t=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(t);}el.textContent=Math.floor(cur).toLocaleString('fr');},25);
 }
 
+// SCROLL REVEAL
 const reveals=document.querySelectorAll('.reveal');
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');e.target.querySelectorAll('[data-target]').forEach(c=>animateCounter(c,parseInt(c.dataset.target)));} });},{threshold:.1});
 reveals.forEach(r=>obs.observe(r));
+new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('[data-target]').forEach(c=>animateCounter(c,parseInt(c.dataset.target)));});},{threshold:.5}).observe(document.querySelector('.proof-bar'));
 
-const proofBar=document.querySelector('.proof-bar');
-new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('[data-target]').forEach(c=>animateCounter(c,parseInt(c.dataset.target)));});},{threshold:.5}).observe(proofBar);
+// EMAIL VALIDATION
+function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);}
 
-async function subscribeEmail(email, btnEl) {
-  const originalText = btnEl.textContent;
-  btnEl.style.opacity = "0.6";
+// SUBSCRIBE
+function subscribeEmail(email, btnEl, redirect) {
+  const orig = btnEl.textContent;
+  btnEl.style.opacity = '0.6';
   btnEl.disabled = true;
-  btnEl.textContent = 'Envoi...';
-  
-  // Envoie en arrière-plan sans attendre
+  btnEl.textContent = 'Envoi en cours…';
   fetch('https://holy-queen-49f8.kazmiisrichwtf.workers.dev/', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email })
-  }).catch(() => {});
-
-  // Redirige immédiatement
-  setTimeout(() => { window.location.href = 'merci.html'; }, 800);
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({email})
+  }).catch(()=>{});
+  setTimeout(()=>{ window.location.href = redirect || 'merci.html'; }, 700);
 }
+
+function shakeForm(row){row.style.borderColor='rgba(255,69,69,0.6)';row.style.boxShadow='0 0 0 4px rgba(255,69,69,0.08)';setTimeout(()=>{row.style.borderColor='';row.style.boxShadow='';},2000);}
 
 function handleSubmit(){
   const e=document.getElementById('emailInput').value.trim();
-  if(!e||!e.includes('@')){document.querySelector('.form-row').style.borderColor='rgba(255,69,69,0.5)';setTimeout(()=>document.querySelector('.form-row').style.borderColor='',2000);return;}
+  const row=document.querySelector('.form-wrap .form-row');
+  if(!isValidEmail(e)){shakeForm(row);return;}
   subscribeEmail(e, document.querySelector('.form-wrap .cta-btn'));
 }
 function handleSubmit2(){
   const e=document.getElementById('emailInput2').value.trim();
-  if(!e||!e.includes('@')){document.querySelectorAll('.form-row')[1].style.borderColor='rgba(255,69,69,0.5)';setTimeout(()=>document.querySelectorAll('.form-row')[1].style.borderColor='',2000);return;}
+  const row=document.querySelector('.final-form .form-row');
+  if(!isValidEmail(e)){shakeForm(row);return;}
   subscribeEmail(e, document.querySelector('.final-form .cta-btn'));
 }
 document.getElementById('emailInput').addEventListener('keypress',e=>{if(e.key==='Enter')handleSubmit();});
 document.getElementById('emailInput2').addEventListener('keypress',e=>{if(e.key==='Enter')handleSubmit2();});
+
+// EXIT-INTENT POPUP
+let popupShown = false;
+function showPopup(){
+  if(popupShown) return;
+  popupShown = true;
+  document.getElementById('exitPopup').classList.add('active');
+}
+function closePopup(){
+  document.getElementById('exitPopup').classList.remove('active');
+}
+function handlePopupSubmit(){
+  const e=document.getElementById('popupEmail').value.trim();
+  if(!isValidEmail(e)){document.getElementById('popupEmail').style.borderColor='rgba(255,69,69,0.5)';setTimeout(()=>document.getElementById('popupEmail').style.borderColor='',2000);return;}
+  const btn=document.querySelector('.popup-cta-btn');
+  btn.textContent='Envoi…';btn.disabled=true;btn.style.opacity='.7';
+  fetch('https://holy-queen-49f8.kazmiisrichwtf.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e})}).catch(()=>{});
+  setTimeout(()=>{window.location.href='merci.html';},700);
+}
+document.getElementById('popupEmail').addEventListener('keypress',e=>{if(e.key==='Enter')handlePopupSubmit();});
+document.addEventListener('mouseleave',e=>{if(e.clientY<=0 && !sessionStorage.getItem('popupDismissed'))showPopup();});
+document.getElementById('exitPopup').addEventListener('click',function(e){if(e.target===this){closePopup();sessionStorage.setItem('popupDismissed','1');}});
+document.querySelector('.popup-skip').addEventListener('click',()=>sessionStorage.setItem('popupDismissed','1'));
+
+// Show popup on scroll if user scrolled 70% but doesn't convert
+window.addEventListener('scroll',()=>{
+  if(popupShown) return;
+  const scrollPct=(window.scrollY+window.innerHeight)/document.body.scrollHeight;
+  if(scrollPct>0.85 && !sessionStorage.getItem('popupDismissed')){
+    setTimeout(showPopup,3000);
+  }
+},{passive:true,once:true});
 </script>
 </body>
 </html>
