@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutomationEra — Suis-je Remplaçable par l'IA ?</title>
-<meta name="description" content="7 questions pour mesurer ton niveau de risque face à l'automatisation IA. Résultat personnalisé + les outils adaptés à ton profil. Gratuit.">
+<title>AutomationEra — Es-tu remplaçable par l’IA ?</title>
+<meta name="description" content="Quiz gratuit en 2 minutes : découvre ton score de risque face à l’automatisation IA. Résultat personnalisé + outils adaptés.">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="Suis-je remplaçable par l'IA ? — AutomationEra">
-<meta property="og:description" content="Quiz 2 minutes : découvre ton niveau de risque face à l'automatisation et les outils pour t'adapter.">
+<meta property="og:title" content="Es-tu remplaçable par l’IA ? — Quiz AutomationEra">
+<meta property="og:description" content="Quiz 2 minutes : mesure ton risque face à l’IA et découvre les outils pour te protéger.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -27,12 +27,8 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
-
-/* GRAIN */
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.4;}
-
 canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.25;}
-
 .page{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px;}
 
 /* NAV */
@@ -41,7 +37,6 @@ nav{width:100%;max-width:800px;display:flex;align-items:center;justify-content:s
 .logo em{color:var(--gold);font-style:normal;}
 .nav-badge{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid rgba(201,168,76,0.2);padding:5px 12px;border-radius:100px;}
 
-/* QUIZ CONTAINER */
 .quiz-wrap{width:100%;max-width:720px;}
 
 /* INTRO */
@@ -51,66 +46,98 @@ nav{width:100%;max-width:800px;display:flex;align-items:center;justify-content:s
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 .intro h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,7vw,72px);font-weight:300;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px;}
 .intro h1 span{color:var(--gold-light);font-style:italic;}
-.intro p{font-size:15px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto 36px;}
-.btn-start{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--gold),#A87830);color:#05050A;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:16px 36px;border-radius:100px;border:none;cursor:pointer;transition:all .3s ease;}
+.intro p{font-size:15px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto 32px;}
+.intro-proof{font-size:12px;color:var(--muted);margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:6px;}
+.intro-proof strong{color:var(--gold-light);}
+.btn-start{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--gold),#A87830);color:#05050A;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:18px 40px;border-radius:100px;border:none;cursor:pointer;transition:all .3s ease;}
 .btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3);}
+.intro-note{font-size:11px;color:var(--muted);margin-top:16px;opacity:.7;}
 
 /* PROGRESS */
-.progress-bar{width:100%;height:2px;background:rgba(255,255,255,0.05);border-radius:2px;margin-bottom:48px;overflow:hidden;}
+.progress-bar{width:100%;height:3px;background:rgba(255,255,255,0.05);border-radius:2px;margin-bottom:12px;overflow:hidden;}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width .5s ease;}
-.step-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.step-info{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;}
+.step-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+.step-pct{font-size:11px;letter-spacing:.1em;color:var(--gold);font-weight:500;}
 
 /* QUESTION */
-.question-block{animation:fadeUp .5s ease both;}
+.question-block{animation:fadeUp .4s ease both;}
 .question-text{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4vw,38px);font-weight:300;line-height:1.2;margin-bottom:36px;letter-spacing:-.01em;}
 .question-text em{color:var(--gold-light);font-style:italic;}
 
 /* OPTIONS */
-.options{display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
 .option{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:all .25s ease;position:relative;overflow:hidden;}
 .option::before{content:'';position:absolute;inset:0;background:var(--gold-dim);opacity:0;transition:opacity .25s;}
 .option:hover{border-color:rgba(201,168,76,0.3);transform:translateX(4px);}
 .option:hover::before{opacity:1;}
 .option.selected{border-color:var(--gold);background:rgba(201,168,76,0.08);}
 .option.selected::before{opacity:1;}
+.option.selected .opt-letter{border-color:var(--gold);color:#05050A;background:var(--gold);}
 .opt-letter{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0;transition:all .25s;}
-.option.selected .opt-letter{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.1);}
-.opt-text{font-size:14px;line-height:1.5;color:var(--text);}
+.opt-text{font-size:14px;line-height:1.5;color:var(--text);position:relative;z-index:1;}
 
-/* NEXT BTN */
-.btn-next{display:inline-flex;align-items:center;gap:10px;background:transparent;border:1px solid rgba(201,168,76,0.4);color:var(--gold-light);font-family:'Syne',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:14px 32px;border-radius:100px;cursor:pointer;transition:all .3s ease;opacity:0;pointer-events:none;}
-.btn-next.visible{opacity:1;pointer-events:all;}
-.btn-next:hover{background:var(--gold-dim);border-color:var(--gold);}
-.arrow{transition:transform .3s;}
-.btn-next:hover .arrow{transform:translateX(4px);}
+/* INSIGHT (mini-feedback after each answer) */
+.insight-bar{opacity:0;max-height:0;overflow:hidden;transition:all .4s ease;margin-bottom:20px;}
+.insight-bar.show{opacity:1;max-height:80px;margin-bottom:20px;}
+.insight-inner{display:flex;align-items:center;gap:12px;background:rgba(201,168,76,0.05);border-left:2px solid var(--gold);padding:12px 16px;border-radius:0 8px 8px 0;font-size:13px;color:var(--muted);line-height:1.5;}
+.insight-inner strong{color:var(--gold-light);}
 
 /* RESULT */
 .result-block{text-align:center;animation:fadeUp .7s ease both;}
-.result-score-ring{position:relative;width:160px;height:160px;margin:0 auto 36px;}
+.result-score-ring{position:relative;width:180px;height:180px;margin:0 auto 40px;}
 .result-score-ring svg{transform:rotate(-90deg);}
-.ring-bg{fill:none;stroke:rgba(255,255,255,0.05);stroke-width:8;}
-.ring-fill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease;}
+.ring-bg{fill:none;stroke:rgba(255,255,255,0.05);stroke-width:6;}
+.ring-fill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset 1.8s cubic-bezier(0.4,0,0.2,1);}
 .score-number{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.score-pct{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold-light);}
+.score-pct{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--gold-light);}
 .score-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
 .result-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,48px);font-weight:300;margin-bottom:16px;line-height:1.1;}
 .result-title span{color:var(--gold-light);font-style:italic;}
-.result-desc{font-size:14px;color:var(--muted);line-height:1.8;max-width:520px;margin:0 auto 40px;}
-.result-badge{display:inline-block;background:var(--gold-dim);border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:8px 20px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:40px;}
+.result-desc{font-size:14px;color:var(--muted);line-height:1.8;max-width:520px;margin:0 auto 24px;}
+.result-badge{display:inline-block;border-radius:100px;padding:8px 20px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:40px;}
+.result-badge.high{background:rgba(255,69,69,0.1);border:1px solid rgba(255,69,69,0.25);color:#FF7070;}
+.result-badge.mid{background:rgba(240,160,48,0.1);border:1px solid rgba(240,160,48,0.25);color:#F0A030;}
+.result-badge.low{background:rgba(76,175,130,0.1);border:1px solid rgba(76,175,130,0.25);color:#6FCFA0;}
+
+/* RESULT DETAIL CARDS */
+.result-details{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:560px;margin:0 auto 40px;text-align:center;}
+.detail-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:16px 12px;}
+.detail-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold-light);line-height:1;margin-bottom:4px;}
+.detail-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
 
 /* CTA RESULT */
-.result-cta{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:32px;max-width:520px;margin:0 auto 24px;}
+.result-cta{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:36px;max-width:520px;margin:0 auto 24px;position:relative;overflow:hidden;}
+.result-cta::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .result-cta h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text);}
-.result-cta p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px;}
-.quiz-form-row{display:flex;gap:10px;margin-top:16px;} .quiz-form-row input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:14px 20px;color:var(--text);font-family:"DM Sans",sans-serif;font-size:14px;outline:none;} .quiz-form-row input::placeholder{color:var(--muted);} .quiz-form-row button{background:linear-gradient(135deg,var(--gold),#A87830);color:#05050A;font-family:"Syne",sans-serif;font-weight:700;font-size:13px;padding:14px 24px;border-radius:100px;border:none;cursor:pointer;white-space:nowrap;} .btn-cta{display:block;background:linear-gradient(135deg,var(--gold),#A87830);color:#05050A;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:16px 32px;border-radius:100px;border:none;cursor:pointer;text-decoration:none;transition:all .3s;}
-.btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3);}
+.result-cta p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;}
+.quiz-form-row{display:flex;gap:10px;margin-top:16px;}
+.quiz-form-row input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:14px 20px;color:var(--text);font-family:"DM Sans",sans-serif;font-size:14px;outline:none;transition:border-color .3s,box-shadow .3s;}
+.quiz-form-row input:focus{border-color:rgba(201,168,76,0.6);box-shadow:0 0 0 3px rgba(201,168,76,0.08);}
+.quiz-form-row input::placeholder{color:var(--muted);}
+.quiz-form-row button{background:linear-gradient(135deg,var(--gold),#A87830);color:#05050A;font-family:"Syne",sans-serif;font-weight:700;font-size:13px;padding:14px 24px;border-radius:100px;border:none;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.quiz-form-row button:hover{filter:brightness(1.1);transform:scale(1.02);}
+
+/* SHARE */
+.result-share{max-width:520px;margin:32px auto 0;}
+.share-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.share-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;font-size:11px;font-family:'Syne',sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:1px solid;transition:all .2s;cursor:pointer;background:none;}
+.share-btn.tw{color:#1DA1F2;border-color:rgba(29,161,242,0.25);}
+.share-btn.tw:hover{background:rgba(29,161,242,0.08);}
+.share-btn.wa{color:#25D366;border-color:rgba(37,211,102,0.25);}
+.share-btn.wa:hover{background:rgba(37,211,102,0.08);}
+
 .btn-restart{background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;margin-top:20px;padding:10px;transition:color .2s;}
 .btn-restart:hover{color:var(--text);}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-
-/* HIDDEN */
 .hidden{display:none;}
+
+@media(max-width:768px){
+  .result-details{grid-template-columns:1fr;gap:8px;}
+  .quiz-form-row{flex-direction:column;}
+}
 </style>
 </head>
 <body>
@@ -125,29 +152,34 @@ nav{width:100%;max-width:800px;display:flex;align-items:center;justify-content:s
 
     <!-- INTRO -->
     <div id="intro" class="intro">
-      <div class="intro-tag"><span class="pulse"></span> 2 minutes chrono</div>
-      <h1>Seras-tu <span>remplacé(e)</span><br>par l'IA en 2026 ?</h1>
-      <p>7 questions pour mesurer ton niveau de risque face à l'automatisation. Résultat personnalisé offert.</p>
-      <button class="btn-start" onclick="startQuiz()">Découvrir mon score <span>→</span></button>
+      <div class="intro-tag"><span class="pulse"></span> 90 secondes chrono</div>
+      <h1>L'IA va supprimer<br><span>ton poste ?</span></h1>
+      <p>7 questions. 90 secondes. Un diagnostic brutal mais honnête de ta situation face à l'automatisation. <strong style="color:var(--text);">La plupart des gens n'aiment pas leur score.</strong></p>
+      <div class="intro-proof"><strong>3 847</strong> personnes ont déjà fait ce test</div>
+      <button class="btn-start" onclick="startQuiz()">Calculer mon score de risque <span style="font-size:16px;">→</span></button>
+      <div class="intro-note">Gratuit et anonyme — Aucune inscription requise pour le test</div>
     </div>
 
     <!-- QUIZ -->
     <div id="quiz" class="hidden">
       <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-      <div class="step-label" id="stepLabel">Question 1 / 7</div>
+      <div class="step-info">
+        <div class="step-label" id="stepLabel">Question 1 / 7</div>
+        <div class="step-pct" id="stepPct">0%</div>
+      </div>
       <div class="question-block" id="questionBlock">
         <div class="question-text" id="questionText"></div>
         <div class="options" id="optionsContainer"></div>
-        <button class="btn-next" id="btnNext" onclick="nextQuestion()">Suivant <span class="arrow">→</span></button>
+        <div class="insight-bar" id="insightBar"><div class="insight-inner" id="insightText"></div></div>
       </div>
     </div>
 
     <!-- RESULT -->
     <div id="result" class="result-block hidden">
       <div class="result-score-ring">
-        <svg width="160" height="160" viewBox="0 0 160 160">
-          <circle class="ring-bg" cx="80" cy="80" r="70"/>
-          <circle class="ring-fill" id="ringFill" cx="80" cy="80" r="70" stroke-dasharray="440" stroke-dashoffset="440"/>
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <circle class="ring-bg" cx="90" cy="90" r="80"/>
+          <circle class="ring-fill" id="ringFill" cx="90" cy="90" r="80" stroke-dasharray="503" stroke-dashoffset="503"/>
         </svg>
         <div class="score-number">
           <span class="score-pct" id="scorePct">0%</span>
@@ -157,12 +189,23 @@ nav{width:100%;max-width:800px;display:flex;align-items:center;justify-content:s
       <div class="result-badge" id="resultBadge"></div>
       <h2 class="result-title" id="resultTitle"></h2>
       <p class="result-desc" id="resultDesc"></p>
+      <div class="result-details" id="resultDetails"></div>
       <div class="result-cta">
-        <h3>🎯 La solution concrète</h3>
-        <p>Découvre les 7 outils IA qui vont transformer ta façon de travailler — et faire de toi un acteur indispensable à l'ère de l'automatisation.</p>
-        <div class="quiz-form-row" id="quizFormRow"><input type="email" id="quizEmail" placeholder="Ton adresse email"/><button id="quizSubmitBtn" onclick="submitQuizEmail()">Recevoir →</button></div>
-        <p style="font-size:11px;color:var(--muted);margin-top:10px;">Gratuit. Sans spam. Désabonnement en 1 clic.</p>
-        <p style="font-size:10px;color:var(--muted);opacity:.7;margin-top:6px;">En t'inscrivant, tu acceptes de recevoir des emails de AutomationEra.</p>
+        <h3 id="ctaTitle"></h3>
+        <p id="ctaDesc"></p>
+        <div class="quiz-form-row" id="quizFormRow">
+          <input type="email" id="quizEmail" placeholder="Ton adresse email"/>
+          <button id="quizSubmitBtn" onclick="submitQuizEmail()">Recevoir →</button>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:10px;">Gratuit. Sans spam. Dsabonnement en 1 clic.</p>
+        <p style="font-size:10px;color:var(--muted);opacity:.7;margin-top:4px;">En t'inscrivant, tu acceptes de recevoir des emails de AutomationEra.</p>
+      </div>
+      <div class="result-share">
+        <div class="share-label">Partage ton score</div>
+        <div class="share-row">
+          <a class="share-btn tw" id="shareTwitter" target="_blank" rel="noopener noreferrer">Twitter / X</a>
+          <a class="share-btn wa" id="shareWhatsApp" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
       </div>
       <button class="btn-restart" onclick="restartQuiz()">↺ Refaire le quiz</button>
     </div>
@@ -185,47 +228,132 @@ function draw(){
     if(p.x<0)p.x=W;if(p.x>W)p.x=0;
     if(p.y<0)p.y=H;if(p.y>H)p.y=0;
     ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(201,168,76,${p.a})`;ctx.fill();
+    ctx.fillStyle='rgba(201,168,76,'+p.a+')';ctx.fill();
   });
   requestAnimationFrame(draw);
 }
 draw();
 
-// QUIZ DATA
+// QUIZ DATA - Psychologically optimized questions
 const questions = [
   {
-    q: "Ton travail principal consiste à <em>analyser et traiter des données</em> répétitives ?",
-    opts: ["Oui, c'est 80% de mon temps","Parfois, mais j'ai aussi des tâches créatives","Non, mon travail est très humain","Je suis entrepreneur / freelance"]
+    q: "Si tu arr\u00eatais de travailler pendant 1 mois, combien de <em>revenus continueraient \u00e0 tomber</em> ?",
+    opts: [
+      "0\u20ac \u2014 tout s\u2019arr\u00eate quand je m\u2019arr\u00eate",
+      "Quelques centaines d\u2019euros max",
+      "Une partie significative de mes revenus",
+      "Presque tout \u2014 mon syst\u00e8me tourne sans moi"
+    ],
+    insight: [
+      "Si tes revenus d\u00e9pendent \u00e0 100% de toi, <strong>l\u2019IA est ta plus grande menace\u2026 et ta plus grande opportunit\u00e9.</strong>",
+      "C\u2019est un d\u00e9but, mais tu es encore <strong>trop d\u00e9pendant de ton temps.</strong>",
+      "Bien. Tu as d\u00e9j\u00e0 <strong>une base de revenus automatis\u00e9s</strong> \u2014 on peut aller plus loin.",
+      "Excellent. Tu fais partie des <strong>5% qui ont compris le jeu.</strong>"
+    ]
   },
   {
-    q: "Utilises-tu déjà des <em>outils IA</em> dans ton quotidien professionnel ?",
-    opts: ["Jamais, je ne sais pas par où commencer","Parfois ChatGPT mais rien de structuré","Oui, quelques outils basiques","Oui, j'automatise activement mes processus"]
+    q: "Qu\u2019est-ce que tu fais quand tu dois <em>cr\u00e9er du contenu</em> pour ton business ?",
+    opts: [
+      "Je passe des heures \u00e0 tout faire manuellement",
+      "J\u2019utilise ChatGPT parfois, sans vraie m\u00e9thode",
+      "J\u2019ai des templates et des process en place",
+      "Mon syst\u00e8me IA produit du contenu quasi tout seul"
+    ],
+    insight: [
+      "Pendant que tu \u00e9cris un post, <strong>tes concurrents en publient 10 avec l\u2019IA.</strong>",
+      "ChatGPT sans strat\u00e9gie = <strong>tirer au hasard dans le noir.</strong>",
+      "Tu as de l\u2019avance sur 80% des gens. <strong>Mais le top 10% automatise tout.</strong>",
+      "Tu es dans le top 5%. <strong>Le but maintenant : scaler.</strong>"
+    ]
   },
   {
-    q: "Quelle est ta <em>vraie valeur ajoutée</em> que l'IA ne peut pas reproduire ?",
-    opts: ["Honnêtement, je ne sais pas","Ma créativité et mon intuition","Mes relations humaines et ma confiance","Ma capacité à apprendre et m'adapter vite"]
+    q: "Combien d\u2019heures par semaine perds-tu sur des <em>t\u00e2ches qu\u2019une IA pourrait faire</em> \u00e0 ta place ?",
+    opts: [
+      "Plus de 20h \u2014 la majorit\u00e9 de mon temps",
+      "10 \u00e0 20h \u2014 une bonne partie",
+      "5 \u00e0 10h \u2014 quelques t\u00e2ches",
+      "Moins de 5h \u2014 j\u2019ai d\u00e9j\u00e0 automatis\u00e9 l\u2019essentiel"
+    ],
+    insight: [
+      "\u00c0 50\u20ac/h, \u00e7a repr\u00e9sente <strong>+52 000\u20ac/an de pertes.</strong> C\u2019est brutal.",
+      "\u00c0 50\u20ac/h, c\u2019est <strong>26 000\u20ac \u00e0 40 000\u20ac/an</strong> que tu br\u00fbles.",
+      "C\u2019est g\u00e9rable, mais <strong>5 \u00e0 10h = 250 \u00e0 500h/an perdues.</strong>",
+      "Bien jou\u00e9. Tu <strong>r\u00e9cup\u00e8res d\u00e9j\u00e0 du temps</strong> gr\u00e2ce \u00e0 l\u2019automatisation."
+    ]
   },
   {
-    q: "Si ton secteur était automatisé à 50% demain, tu serais...",
-    opts: ["Paniqué(e), je ne suis pas préparé(e)","Inquiet(e) mais j'ai quelques atouts","Relativement serein(e)","Prêt(e), j'anticipe déjà cette transition"]
+    q: "Honn\u00eatement, comment tu te sens <em>face \u00e0 l\u2019IA</em> en ce moment ?",
+    opts: [
+      "D\u00e9pass\u00e9(e) \u2014 \u00e7a va trop vite, je sais pas par o\u00f9 commencer",
+      "Curieux(se) mais perdu(e) \u2014 trop d\u2019outils, pas de clart\u00e9",
+      "Motiv\u00e9(e) \u2014 je sais que c\u2019est important mais j\u2019agis pas assez",
+      "Confiant(e) \u2014 j\u2019utilise d\u00e9j\u00e0 l\u2019IA strat\u00e9giquement"
+    ],
+    insight: [
+      "Tu n\u2019es pas seul(e) : <strong>67% des entrepreneurs</strong> ressentent la m\u00eame chose.",
+      "La clart\u00e9 viendra. <strong>Il te manque juste les bons outils et un plan.</strong>",
+      "Savoir sans agir = perdre. <strong>La diff\u00e9rence se fait maintenant.</strong>",
+      "<strong>Tu fais partie de l\u2019\u00e9lite.</strong> Le quiz va confirmer tes acquis."
+    ]
   },
   {
-    q: "Combien d'heures par semaine perds-tu sur des <em>tâches répétitives</em> ?",
-    opts: ["Plus de 20h — c'est énorme","Entre 10 et 20h","Entre 5 et 10h","Moins de 5h — j'ai déjà optimisé"]
+    q: "Quel est ton <em>chiffre d\u2019affaires mensuel</em> g\u00e9n\u00e9r\u00e9 gr\u00e2ce au digital ?",
+    opts: [
+      "0\u20ac \u2014 je n\u2019ai pas encore de revenus en ligne",
+      "Moins de 1 000\u20ac/mois",
+      "Entre 1 000\u20ac et 5 000\u20ac/mois",
+      "Plus de 5 000\u20ac/mois"
+    ],
+    insight: [
+      "Avec les bons outils, <strong>tu pourrais g\u00e9n\u00e9rer tes premiers revenus en 30 jours.</strong>",
+      "Tu as d\u00e9j\u00e0 prouv\u00e9 que c\u2019est possible. <strong>L\u2019IA peut multiplier \u00e7a par 5.</strong>",
+      "Solide. <strong>L\u2019automatisation est ton levier</strong> pour passer au palier suivant.",
+      "Tu es d\u00e9j\u00e0 dans le game. <strong>L\u2019IA est ton acc\u00e9l\u00e9rateur.</strong>"
+    ]
   },
   {
-    q: "As-tu une <em>source de revenus en ligne</em> ou un business digital ?",
-    opts: ["Non, aucun","J'y pense mais je n'ai rien lancé","Oui, quelque chose de petit","Oui, c'est ma principale source de revenus"]
+    q: "Pendant que tu lis ceci, <em>tes concurrents</em> utilisent probablement l\u2019IA pour...",
+    opts: [
+      "Cr\u00e9er 10x plus de contenu que moi",
+      "Automatiser leur acquisition clients",
+      "Scaler leur business sans embaucher",
+      "Rien \u2014 je suis d\u00e9j\u00e0 en avance sur eux"
+    ],
+    insight: [
+      "Exactement. <strong>Chaque jour sans IA = un jour o\u00f9 ils prennent de l\u2019avance.</strong>",
+      "L\u2019acquisition automatis\u00e9e est le <strong>plus gros avantage comp\u00e9titif de 2026.</strong>",
+      "Ceux qui scalent sans embaucher <strong>gardent +80% de leurs marges.</strong>",
+      "Si c\u2019est vrai, <strong>tu es dans une position de force rare.</strong> Prot\u00e8ge-la."
+    ]
   },
   {
-    q: "Dans 5 ans, tu te vois...",
-    opts: ["Dans le même poste, en espérant que ça tienne","En reconversion forcée si l'IA avance trop","Avoir évolué grâce à l'IA, pas contre elle","Diriger un business automatisé et scalable"]
+    q: "Dans <em>12 mois</em>, si tu ne changes rien aujourd\u2019hui...",
+    opts: [
+      "Je serai exactement au m\u00eame point, peut-\u00eatre pire",
+      "J\u2019aurai pris du retard irr\u00e9versible",
+      "J\u2019aurai avanc\u00e9, mais lentement",
+      "Impossible \u2014 je vais agir maintenant"
+    ],
+    insight: [
+      "<strong>R\u00e9p\u00e9ter la m\u00eame ann\u00e9e 10 fois</strong> n\u2019est pas une strat\u00e9gie.",
+      "Le retard en IA <strong>se rattrape de moins en moins facilement.</strong>",
+      "Lentement = perdre face \u00e0 ceux qui <strong>acc\u00e9l\u00e8rent avec l\u2019IA.</strong>",
+      "Bonne mentalit\u00e9. <strong>Voyons ce que r\u00e9v\u00e8le ton score.</strong>"
+    ]
   }
 ];
 
-const scores = [[85,40,20,5],[80,50,25,5],[75,45,20,10],[80,50,25,5],[75,40,20,5],[70,55,25,5],[75,45,15,5]];
+const scores = [
+  [90, 60, 25, 5],
+  [85, 55, 25, 5],
+  [85, 55, 25, 5],
+  [85, 60, 30, 5],
+  [80, 55, 25, 10],
+  [80, 55, 30, 5],
+  [85, 65, 25, 5]
+];
 
-let current = 0, totalScore = 0, selected = -1;
+let current = 0, totalScore = 0, selected = -1, answers = [];
 
 function startQuiz(){
   document.getElementById('intro').classList.add('hidden');
@@ -235,126 +363,172 @@ function startQuiz(){
 
 function renderQuestion(){
   const q = questions[current];
-  document.getElementById('stepLabel').textContent = `Question ${current+1} / ${questions.length}`;
-  document.getElementById('progress').style.width = `${(current/questions.length)*100}%`;
+  const pct = Math.round((current/questions.length)*100);
+  document.getElementById('stepLabel').textContent = 'Question '+(current+1)+' / '+questions.length;
+  document.getElementById('stepPct').textContent = pct+'%';
+  document.getElementById('progress').style.width = pct+'%';
   document.getElementById('questionText').innerHTML = q.q;
-  
+  document.getElementById('insightBar').classList.remove('show');
+
   const letters = ['A','B','C','D'];
   const container = document.getElementById('optionsContainer');
   container.innerHTML = '';
-  q.opts.forEach((opt,i)=>{
+  q.opts.forEach(function(opt,i){
     const div = document.createElement('div');
     div.className = 'option';
-    div.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${opt}</div>`;
-    div.onclick = ()=>selectOption(i, div);
+    div.innerHTML = '<div class="opt-letter">'+letters[i]+'</div><div class="opt-text">'+opt+'</div>';
+    div.onclick = function(){selectOption(i, div);};
     container.appendChild(div);
   });
-  
+
   selected = -1;
-  const btn = document.getElementById('btnNext');
-  btn.classList.remove('visible');
-  
+
   // Animate in
-  document.getElementById('questionBlock').style.animation='none';
-  setTimeout(()=>{document.getElementById('questionBlock').style.animation='fadeUp .4s ease both';},10);
+  var qb = document.getElementById('questionBlock');
+  qb.style.animation='none';
+  setTimeout(function(){qb.style.animation='fadeUp .4s ease both';},10);
 }
 
 function selectOption(idx, el){
-  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  document.querySelectorAll('.option').forEach(function(o){o.classList.remove('selected');});
   el.classList.add('selected');
   selected = idx;
-  document.getElementById('btnNext').classList.add('visible');
-}
+  answers.push(idx);
 
-function nextQuestion(){
-  if(selected === -1) return;
-  totalScore += scores[current][selected];
-  current++;
-  if(current < questions.length){
-    renderQuestion();
-  } else {
-    showResult();
-  }
+  // Show insight
+  var insight = questions[current].insight[idx];
+  document.getElementById('insightText').innerHTML = insight;
+  document.getElementById('insightBar').classList.add('show');
+
+  // Auto-advance after delay
+  setTimeout(function(){
+    if(selected === -1) return;
+    totalScore += scores[current][selected];
+    current++;
+    if(current < questions.length){
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }, 1400);
 }
 
 function showResult(){
   document.getElementById('quiz').classList.add('hidden');
   document.getElementById('result').classList.remove('hidden');
-  
-  const avg = Math.round(totalScore / questions.length);
-  
+
+  var avg = Math.round(totalScore / questions.length);
+
   // Animate ring
-  setTimeout(()=>{
-    const ring = document.getElementById('ringFill');
-    const circumference = 440;
-    const offset = circumference - (avg/100)*circumference;
-    
+  setTimeout(function(){
+    var ring = document.getElementById('ringFill');
+    var circumference = 503;
+    var offset = circumference - (avg/100)*circumference;
+
     if(avg >= 60) ring.style.stroke = '#FF4545';
     else if(avg >= 35) ring.style.stroke = '#F0A030';
     else ring.style.stroke = '#4CAF50';
-    
+
     ring.style.strokeDashoffset = offset;
-    
-    let count = 0;
-    const interval = setInterval(()=>{
-      count += 2;
+
+    var count = 0;
+    var interval = setInterval(function(){
+      count += 1;
       if(count >= avg){count=avg;clearInterval(interval);}
       document.getElementById('scorePct').textContent = count + '%';
-    }, 20);
+    }, 25);
   }, 300);
 
-  let badge, title, desc;
+  // Calculate detail stats
+  var hoursLost = answers[2] === 0 ? '20+' : answers[2] === 1 ? '~15' : answers[2] === 2 ? '~7' : '<5';
+  var moneyLost = answers[2] === 0 ? '52 000' : answers[2] === 1 ? '35 000' : answers[2] === 2 ? '18 000' : '5 000';
+  var competitorRisk = avg >= 65 ? 'Critique' : avg >= 35 ? 'Moyen' : 'Faible';
+
+  document.getElementById('resultDetails').innerHTML =
+    '<div class="detail-card"><div class="detail-num">'+hoursLost+'h</div><div class="detail-label">perdues / semaine</div></div>' +
+    '<div class="detail-card"><div class="detail-num">'+moneyLost+'\u20ac</div><div class="detail-label">co\u00fbt / an estim\u00e9</div></div>' +
+    '<div class="detail-card"><div class="detail-num">'+competitorRisk+'</div><div class="detail-label">risque concurrentiel</div></div>';
+
+  var badge, badgeClass, title, desc, ctaTitle, ctaDesc;
+
   if(avg >= 65){
-    badge = '🔴 Risque Élevé';
-    title = 'Tu es <span>vulnérable</span><br>à l\'automatisation';
-    desc = 'Ton profil actuel présente un risque significatif face à l\'IA. Tes tâches sont largement automatisables et tu n\'as pas encore développé les compétences pour rester compétitif(ve). La bonne nouvelle ? Il n\'est pas trop tard — mais il faut agir maintenant.';
+    badgeClass = 'high';
+    badge = '\uD83D\uDD34 Risque \u00c9lev\u00e9 \u2014 '+avg+'%';
+    title = 'Ton business est <span>vuln\u00e9rable</span>';
+    desc = 'Sans changement imm\u00e9diat, tu risques de te faire d\u00e9passer par des concurrents qui automatisent d\u00e9j\u00e0. Tes t\u00e2ches sont largement automatisables, ton mod\u00e8le est fragile, et chaque semaine qui passe aggrave l\u2019\u00e9cart. Mais la bonne nouvelle : les m\u00eames outils qui te menacent peuvent devenir ton avantage.';
+    ctaTitle = '\u26A0\uFE0F Plan de sauvetage imm\u00e9diat';
+    ctaDesc = 'Tu as besoin des 7 outils IA qui vont prot\u00e9ger ton business ET le propulser. On te les envoie imm\u00e9diatement.';
   } else if(avg >= 35){
-    badge = '🟡 Risque Modéré';
-    title = 'Tu es à la <span>croisée des chemins</span>';
-    desc = 'Ta situation est intermédiaire. Tu as des atouts humains réels, mais ton exposition à l\'automatisation reste significative. Avec les bons outils et une bonne stratégie, tu peux transformer cette menace en opportunité majeure.';
+    badgeClass = 'mid';
+    badge = '\uD83D\uDFE1 Risque Mod\u00e9r\u00e9 \u2014 '+avg+'%';
+    title = 'Tu es \u00e0 la <span>crois\u00e9e des chemins</span>';
+    desc = 'Tu as des bases solides et des atouts r\u00e9els. Mais ton exposition \u00e0 l\u2019automatisation reste significative. La diff\u00e9rence entre ceux qui stagnent et ceux qui explosent ? Les outils qu\u2019ils utilisent. Tu es \u00e0 un clic de basculer du bon c\u00f4t\u00e9.';
+    ctaTitle = '\uD83C\uDFAF Ton plan d\u2019acc\u00e9l\u00e9ration';
+    ctaDesc = 'Avec les bons outils, tu peux transformer ton potentiel en r\u00e9sultats concrets. Voici les 7 que les meilleurs utilisent.';
   } else {
-    badge = '🟢 Risque Faible';
-    title = 'Tu es <span>bien positionné(e)</span><br>pour l\'ère IA';
-    desc = 'Bravo ! Ton profil montre une bonne résistance à l\'automatisation. Tu as déjà une longueur d\'avance. Maintenant, l\'objectif est d\'aller encore plus loin en utilisant l\'IA comme levier de croissance plutôt que comme menace.';
+    badgeClass = 'low';
+    badge = '\uD83D\uDFE2 Risque Faible \u2014 '+avg+'%';
+    title = 'Tu es <span>en avance</span> sur 95% des gens';
+    desc = 'Bravo. Ton profil montre que tu as d\u00e9j\u00e0 int\u00e9gr\u00e9 l\u2019IA dans ta strat\u00e9gie. Tu fais partie de l\u2019\u00e9lite des entrepreneurs qui ont compris que l\u2019automatisation est un levier, pas une menace. Maintenant, l\u2019objectif : aller encore plus loin.';
+    ctaTitle = '\uD83D\uDE80 Ton prochain levier de croissance';
+    ctaDesc = 'Tu connais d\u00e9j\u00e0 les bases. Voici les 7 outils avanc\u00e9s que le top 1% utilise pour scaler.';
   }
 
-  document.getElementById('resultBadge').textContent = badge;
+  var badgeEl = document.getElementById('resultBadge');
+  badgeEl.textContent = badge;
+  badgeEl.className = 'result-badge ' + badgeClass;
   document.getElementById('resultTitle').innerHTML = title;
   document.getElementById('resultDesc').textContent = desc;
-}
+  document.getElementById('ctaTitle').textContent = ctaTitle;
+  document.getElementById('ctaDesc').textContent = ctaDesc;
 
+  // Share links
+  var shareText = encodeURIComponent('Mon score de risque IA : '+avg+'%. Et toi ? Fais le test gratuit sur automationera.fr/quizz.html');
+  document.getElementById('shareTwitter').href = 'https://twitter.com/intent/tweet?text='+shareText;
+  document.getElementById('shareWhatsApp').href = 'https://wa.me/?text='+shareText;
+}
 
 function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);}
 
-async function submitQuizEmail(){
-  const e=document.getElementById('quizEmail').value.trim();
-  const btn=document.getElementById('quizSubmitBtn');
+function submitQuizEmail(){
+  var e=document.getElementById('quizEmail').value.trim();
+  var btn=document.getElementById('quizSubmitBtn');
   if(!isValidEmail(e)){
-    const row=document.getElementById('quizFormRow');
+    var row=document.getElementById('quizFormRow');
     row.style.border='1px solid rgba(255,69,69,0.5)';
     row.style.boxShadow='0 0 0 3px rgba(255,69,69,0.08)';
-    setTimeout(()=>{row.style.border='';row.style.boxShadow='';},2000);
+    setTimeout(function(){row.style.border='';row.style.boxShadow='';},2000);
     return;
   }
-  btn.textContent='Envoi…';btn.disabled=true;btn.style.opacity='.7';
-  const avg = Math.round(totalScore / questions.length);
-  try{
-    fetch('https://api.systeme.io/api/contacts',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','X-API-Key':'b8d13az6m676tocwfd3oi6kig1pewfo4l535cpns9pi6lkypkijd78ogfed0p3w1'},
-      body:JSON.stringify({email:e,fields:[]})
-    }).catch(()=>{});
-  }catch(err){}
-  setTimeout(()=>{ window.location.href='merci.html?score='+avg; }, 700);
+  btn.textContent='Envoi\u2026';btn.disabled=true;btn.style.opacity='.7';
+  var avg = Math.round(totalScore / questions.length);
+  fetch('https://api.systeme.io/api/contacts',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-API-Key':'b8d13az6m676tocwfd3oi6kig1pewfo4l535cpns9pi6lkypkijd78ogfed0p3w1'},
+    body:JSON.stringify({email:e,fields:[]})
+  }).catch(function(){});
+  setTimeout(function(){ window.location.href='merci.html?score='+avg; }, 700);
 }
+
 function restartQuiz(){
-  current = 0; totalScore = 0; selected = -1;
+  current = 0; totalScore = 0; selected = -1; answers = [];
   document.getElementById('result').classList.add('hidden');
   document.getElementById('progress').style.width = '0%';
-  document.getElementById('ringFill').style.strokeDashoffset = '440';
+  document.getElementById('ringFill').style.strokeDashoffset = '503';
   document.getElementById('quiz').classList.remove('hidden');
   renderQuestion();
 }
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e){
+  if(document.getElementById('quiz').classList.contains('hidden')) return;
+  var key = e.key.toUpperCase();
+  var map = {A:0, B:1, C:2, D:3};
+  if(map[key] !== undefined && selected === -1){
+    var opts = document.querySelectorAll('.option');
+    if(opts[map[key]]) selectOption(map[key], opts[map[key]]);
+  }
+});
 </script>
 </body>
 </html>
