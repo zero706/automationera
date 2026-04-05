@@ -10,7 +10,7 @@
 <meta property="og:url" content="https://automationera.fr">
 <meta property="og:title" content="AutomationEra — 7 Outils IA pour gagner 10h/semaine">
 <meta property="og:description" content="La liste que les pros gardent pour eux. 100% gratuit, envoyée directement dans ta boîte mail.">
-<meta property="og:image" content="https://automationera.fr/og-image.png">
+<meta property="og:image" content="https://automationera.fr/logo.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="7 Outils IA Secrets — AutomationEra">
 <meta name="twitter:description" content="Gagne 10h par semaine avec les outils IA que personne ne mentionne. Gratuit.">
@@ -41,13 +41,8 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.35;
 
 /* NAV */
 nav{padding:24px 60px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.04);}
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
-.logo-mark{width:36px;height:36px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;}
-.logo-mark::before{content:'';position:absolute;width:20px;height:20px;border:1px solid rgba(201,168,76,0.3);border-radius:50%;}
-.logo-inner{width:8px;height:8px;background:var(--gold);border-radius:50%;animation:breathe 3s ease-in-out infinite;}
-@keyframes breathe{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:.6;}}
-.logo-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--text);}
-.logo-name em{color:var(--gold);font-style:normal;}
+.logo{display:flex;align-items:center;gap:0;text-decoration:none;}
+.logo img{height:38px;width:auto;display:block;}
 .nav-proof{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px;}
 .stars{color:var(--gold);letter-spacing:-2px;}
 
@@ -221,9 +216,8 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
   <div class="topbar"><span>⚡</span>Offre limitée — La liste sera payante dans <div class="countdown" id="countdown"><div class="cd-unit"><span class="cd-num" id="cd-j">--</span><span class="cd-label">j</span></div><span class="cd-sep">:</span><div class="cd-unit"><span class="cd-num" id="cd-h">--</span><span class="cd-label">h</span></div><span class="cd-sep">:</span><div class="cd-unit"><span class="cd-num" id="cd-m">--</span><span class="cd-label">m</span></div><span class="cd-sep">:</span><div class="cd-unit"><span class="cd-num" id="cd-s">--</span><span class="cd-label">s</span></div></div></div>
 
   <nav>
-    <a href="#" class="logo">
-      <div class="logo-mark"><div class="logo-inner"></div></div>
-      <span class="logo-name">Automation<em>Era</em></span>
+    <a href="/" class="logo">
+      <img src="logo-nav.svg" alt="AutomationEra" width="160" height="38">
     </a>
     <div class="nav-proof">
       <span class="stars">★★★★★</span>

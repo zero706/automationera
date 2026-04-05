@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Background -->
+  <rect width="400" height="400" rx="44" ry="44" fill="#0E0E0E"/>
+
+  <!-- Corner brackets -->
+  <path d="M24,56 L24,24 L56,24" fill="none" stroke="#F07030" stroke-width="4" stroke-linecap="square"/>
+  <path d="M344,24 L376,24 L376,56" fill="none" stroke="#F07030" stroke-width="4" stroke-linecap="square"/>
+  <path d="M24,344 L24,376 L56,376" fill="none" stroke="#F07030" stroke-width="4" stroke-linecap="square"/>
+  <path d="M344,376 L376,376 L376,344" fill="none" stroke="#F07030" stroke-width="4" stroke-linecap="square"/>
+
+  <!-- A left leg -->
+  <line x1="200" y1="52" x2="76" y2="240" stroke="#F07030" stroke-width="14" stroke-linecap="round"/>
+  <!-- A right leg -->
+  <line x1="200" y1="52" x2="324" y2="240" stroke="#F07030" stroke-width="14" stroke-linecap="round"/>
+  <!-- A crossbar: at ~61% down the legs (y = 52 + 0.61*188 = 166.7) -->
+  <!-- Left x at y=167: 200 + (76-200)*(167-52)/188 = 200 - 75.9 = 124 -->
+  <!-- Right x at y=167: 200 + (324-200)*(167-52)/188 = 200 + 75.9 = 276 -->
+  <line x1="124" y1="167" x2="276" y2="167" stroke="#F07030" stroke-width="11" stroke-linecap="round"/>
+
+  <!-- Base extensions + circuit branches -->
+  <!-- Left base short ext -->
+  <line x1="76" y1="240" x2="56" y2="240" stroke="#F07030" stroke-width="11" stroke-linecap="round"/>
+  <!-- Right base short ext -->
+  <line x1="324" y1="240" x2="344" y2="240" stroke="#F07030" stroke-width="11" stroke-linecap="round"/>
+  <!-- Left circuit trace down -->
+  <line x1="56" y1="240" x2="38" y2="240" stroke="#F07030" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  <line x1="38" y1="240" x2="38" y2="265" stroke="#F07030" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  <circle cx="38" cy="265" r="6" fill="#F07030" opacity="0.7"/>
+  <!-- Right circuit trace down -->
+  <line x1="344" y1="240" x2="362" y2="240" stroke="#F07030" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  <line x1="362" y1="240" x2="362" y2="265" stroke="#F07030" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  <circle cx="362" cy="265" r="6" fill="#F07030" opacity="0.7"/>
+
+  <!-- Antenna top -->
+  <line x1="200" y1="36" x2="200" y2="52" stroke="#F07030" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="200" cy="31" r="7" fill="#F07030" opacity="0.8"/>
+
+  <!-- Lightning bolt (white, inside A) -->
+  <path d="M208,75 L182,168 L201,162 L191,230 L224,160 L205,166 Z" fill="white"/>
+
+  <!-- AUTOMATION text -->
+  <text x="200" y="300"
+    font-family="Arial Black, Helvetica Neue, sans-serif"
+    font-weight="900" font-size="50" fill="white"
+    text-anchor="middle" letter-spacing="5">AUTOMATION</text>
+
+  <!-- ERA text -->
+  <text x="200" y="345"
+    font-family="Arial, Helvetica, sans-serif"
+    font-weight="700" font-size="30" fill="#F07030"
+    text-anchor="middle" letter-spacing="12">ERA</text>
+</svg>

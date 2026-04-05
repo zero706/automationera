@@ -33,8 +33,8 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.25;
 
 /* NAV */
 nav{width:100%;max-width:800px;display:flex;align-items:center;justify-content:space-between;margin-bottom:60px;}
-.logo{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;letter-spacing:.06em;color:var(--text);text-decoration:none;}
-.logo em{color:var(--gold);font-style:normal;}
+.logo{display:flex;align-items:center;text-decoration:none;}
+.logo img{height:34px;width:auto;display:block;}
 .nav-badge{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid rgba(201,168,76,0.2);padding:5px 12px;border-radius:100px;}
 
 .quiz-wrap{width:100%;max-width:720px;}
@@ -144,7 +144,9 @@ nav{width:100%;max-width:800px;display:flex;align-items:center;justify-content:s
 <canvas id="c"></canvas>
 <div class="page">
   <nav>
-    <a href="index.html" class="logo">Automation<em>Era</em></a>
+    <a href="index.html" class="logo">
+      <img src="logo-nav.svg" alt="AutomationEra" width="148" height="34">
+    </a>
     <span class="nav-badge">Quiz IA 2026</span>
   </nav>
 
