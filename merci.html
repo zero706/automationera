@@ -261,6 +261,23 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
 .share-btn.cp{color:var(--gold);border-color:rgba(201,168,76,0.25);background:rgba(201,168,76,0.06);}
 .share-btn.cp:hover{background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.4);}
 
+/* URGENCY TIMER */
+.urgency-strip{max-width:700px;margin:0 auto 40px;padding:0 24px;text-align:center;}
+.urgency-box{background:rgba(255,69,69,0.06);border:1px solid rgba(255,69,69,0.15);border-radius:8px;padding:16px 24px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+.urgency-label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#FF7070;}
+.urgency-timer{display:flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums;}
+.ut-unit{background:rgba(255,69,69,0.1);border-radius:4px;padding:4px 8px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#FF7070;min-width:36px;text-align:center;}
+.ut-sep{color:rgba(255,69,69,0.4);font-size:12px;}
+
+/* PERSONALIZED RECO */
+.reco-section{max-width:580px;margin:0 auto 60px;padding:0 24px;text-align:center;}
+.reco-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:8px;}
+.reco-title em{color:var(--gold-light);font-style:italic;}
+.reco-text{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:20px;}
+.reco-steps{display:flex;flex-direction:column;gap:8px;text-align:left;max-width:420px;margin:0 auto;}
+.reco-step{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;font-size:13px;color:var(--text);}
+.reco-step span:first-child{font-size:16px;}
+
 /* AFFILIATE GRID */
 .affiliate-grid{max-width:700px;margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .aff-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:28px;text-align:center;position:relative;overflow:hidden;transition:border-color .2s;}
@@ -271,8 +288,8 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
 .aff-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;margin-bottom:8px;}
 .aff-title em{color:var(--gold-light);font-style:italic;}
 .aff-text{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:20px;}
-.aff-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,168,76,0.3);padding:10px 20px;font-family:'Syne',sans-serif;font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-light);text-decoration:none;border-radius:4px;transition:all .2s;}
-.aff-btn:hover{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.5);}
+.aff-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold) 0%,#E8B830 100%);padding:12px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#05050A;text-decoration:none;border-radius:4px;border:none;transition:all .2s;}
+.aff-btn:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 4px 16px rgba(201,168,76,0.25);}
 .aff-badge{position:absolute;top:12px;right:12px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.2);border-radius:100px;padding:3px 10px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
 
 @media(max-width:768px){
@@ -347,6 +364,25 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
 
   </section>
 
+  <!-- URGENCY TIMER -->
+  <div class="urgency-strip">
+    <div class="urgency-box">
+      <span class="urgency-label">Bonus affiliés disponible pendant :</span>
+      <div class="urgency-timer">
+        <span class="ut-unit" id="ut-h">23</span><span class="ut-sep">:</span>
+        <span class="ut-unit" id="ut-m">59</span><span class="ut-sep">:</span>
+        <span class="ut-unit" id="ut-s">59</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSONALIZED RECOMMENDATION -->
+  <div class="reco-section" id="recoSection" style="display:none;">
+    <div class="reco-title">Ton plan d'action <em>personnalisé</em></div>
+    <p class="reco-text" id="recoText"></p>
+    <div class="reco-steps" id="recoSteps"></div>
+  </div>
+
   <!-- SOCIAL SHARE -->
   <section class="share-section">
     <div class="share-title">Partage à un ami qui en a besoin</div>
@@ -385,22 +421,76 @@ footer{padding:24px 60px;border-top:1px solid rgba(255,255,255,0.04);display:fle
 </div>
 
 <script>
-// SCORE PERSONALIZATION
+// URGENCY COUNTDOWN (24h from first visit)
 (function(){
-  const params = new URLSearchParams(window.location.search);
-  const score = parseInt(params.get('score'));
+  var key = 'ae_bonus_deadline';
+  var saved = localStorage.getItem(key);
+  var deadline;
+  if(saved){
+    deadline = new Date(parseInt(saved));
+  } else {
+    deadline = new Date(Date.now() + 24*60*60*1000);
+    localStorage.setItem(key, deadline.getTime());
+  }
+  function pad(n){return String(n).padStart(2,'0');}
+  function tick(){
+    var diff = deadline - Date.now();
+    if(diff <= 0){
+      document.getElementById('ut-h').textContent = '00';
+      document.getElementById('ut-m').textContent = '00';
+      document.getElementById('ut-s').textContent = '00';
+      return;
+    }
+    document.getElementById('ut-h').textContent = pad(Math.floor(diff/36e5));
+    document.getElementById('ut-m').textContent = pad(Math.floor((diff%36e5)/6e4));
+    document.getElementById('ut-s').textContent = pad(Math.floor((diff%6e4)/1e3));
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+// SCORE PERSONALIZATION + RECOMMENDATIONS
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var score = parseInt(params.get('score'));
   if(!isNaN(score)){
-    const banner = document.getElementById('scoreBanner');
+    var banner = document.getElementById('scoreBanner');
     banner.style.display = 'inline-flex';
     if(score >= 65){
       banner.className = 'score-banner high';
-      banner.textContent = '🔴 Score de risque : ' + score + '% — Agis maintenant';
+      banner.textContent = '\uD83D\uDD34 Score de risque : ' + score + '% \u2014 Agis maintenant';
     } else if(score >= 35){
       banner.className = 'score-banner mid';
-      banner.textContent = '🟡 Score de risque : ' + score + '% — Tu es à la croisée';
+      banner.textContent = '\uD83D\uDFE1 Score de risque : ' + score + '% \u2014 Tu es \u00e0 la crois\u00e9e';
     } else {
       banner.className = 'score-banner low';
-      banner.textContent = '🟢 Score de risque : ' + score + '% — Bien positionné(e)';
+      banner.textContent = '\uD83D\uDFE2 Score de risque : ' + score + '% \u2014 Bien positionn\u00e9(e)';
+    }
+
+    // Personalized recommendations
+    var reco = document.getElementById('recoSection');
+    reco.style.display = 'block';
+    var recoText = document.getElementById('recoText');
+    var recoSteps = document.getElementById('recoSteps');
+
+    if(score >= 65){
+      recoText.textContent = 'Avec un score de '+score+'%, voici les 3 actions prioritaires pour inverser la tendance :';
+      recoSteps.innerHTML =
+        '<div class="reco-step"><span>\u26A1</span> Commence par Make.com (outil n\u00b02) pour automatiser tes t\u00e2ches r\u00e9p\u00e9titives imm\u00e9diatement</div>'+
+        '<div class="reco-step"><span>\uD83D\uDCE7</span> Configure Systeme.io pour capturer et nourrir tes leads en autopilote</div>'+
+        '<div class="reco-step"><span>\uD83D\uDE80</span> Lis le PDF d\u00e8s r\u00e9ception et applique l\u2019outil n\u00b01 dans les 24h</div>';
+    } else if(score >= 35){
+      recoText.textContent = 'Score de '+score+'% \u2014 Tu as du potentiel. Voici comment l\u2019exploiter :';
+      recoSteps.innerHTML =
+        '<div class="reco-step"><span>\uD83C\uDFAF</span> Concentre-toi sur l\u2019outil n\u00b02 (Make.com) pour des gains imm\u00e9diats</div>'+
+        '<div class="reco-step"><span>\uD83D\uDCC8</span> Utilise l\u2019outil n\u00b01 pour scaler ta cr\u00e9ation de contenu x10</div>'+
+        '<div class="reco-step"><span>\uD83D\uDD12</span> D\u00e9couvre l\u2019outil secret n\u00b07 dans le PDF \u2014 c\u2019est ton acc\u00e9l\u00e9rateur</div>';
+    } else {
+      recoText.textContent = 'Score de '+score+'% \u2014 Tu es en avance. Voici comment creuser l\u2019\u00e9cart :';
+      recoSteps.innerHTML =
+        '<div class="reco-step"><span>\uD83D\uDC8E</span> L\u2019outil n\u00b07 (secret) est fait pour toi \u2014 c\u2019est le levier du top 1%</div>'+
+        '<div class="reco-step"><span>\u26A1</span> Combine Make.com + Systeme.io pour un funnel 100% automatique</div>'+
+        '<div class="reco-step"><span>\uD83D\uDCCA</span> Utilise l\u2019outil n\u00b06 pour dominer ton march\u00e9 avec des donn\u00e9es</div>';
     }
   }
 })();
