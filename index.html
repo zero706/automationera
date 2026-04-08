@@ -17,6 +17,7 @@
 <meta name="impact-site-verification" value="3f8cc5ec-4dac-4abe-9317-552f188aad96">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo.svg">
+<link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -420,79 +421,94 @@ const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersec
 reveals.forEach(r=>obs.observe(r));
 new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('[data-target]').forEach(c=>animateCounter(c,parseInt(c.dataset.target)));});},{threshold:.5}).observe(document.querySelector('.proof-bar'));
 
-// EMAIL VALIDATION
+// ─── BREVO CONFIG ────────────────────────────────────────────────────────────
+const BREVO_URL = 'https://f25ba0e0.sibforms.com/serve/MUIFAAr0NImxTEKGsKK5j2RGlx5b9MCD4a06iRId2BsGfga5kSPmS5h7z4ABQ-y-P4JxBEi18KNJLGwU_Cv_uXwhXLatSJNyoKTNbkkj-4DLms-k3zx7DJgO3zbn-hJw6aJsCgBtZ2B6M9_Y6q41vNxXVcZUX-Pm8QdFv900gryzP3r9TJTkjmIBeHDalwgyOC3V_rL7xJ7gfcrWdA==';
+
 function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);}
 
-// SYSTEME.IO — Ajoute le contact + tag pour déclencher la séquence automatique
-function addToSysteme(email, tag) {
-  fetch('https://api.systeme.io/api/contacts', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-API-Key': 'b8d13az6m676tocwfd3oi6kig1pewfo4l535cpns9pi6lkypkijd78ogfed0p3w1'
-    },
-    body: JSON.stringify({ email: email, fields: [], tags: [{name: tag}] })
-  }).catch(()=>{});
+// Envoie l'email à Brevo (mode no-cors = fire & forget)
+function sendToBrevo(email) {
+  const fd = new FormData();
+  fd.append('EMAIL', email);
+  fd.append('email_address_check', ''); // honeypot anti-spam
+  fd.append('locale', 'fr');
+  fetch(BREVO_URL, { method: 'POST', body: fd, mode: 'no-cors' }).catch(()=>{});
 }
 
-// SUBSCRIBE — Worker (collecte) + Systeme.io (emails automatiques)
-function subscribeEmail(email, btnEl, redirect, tag) {
+// Inscription principale — Brevo + redirect vers merci.html
+function subscribeEmail(email, btnEl) {
   btnEl.style.opacity = '0.6';
   btnEl.disabled = true;
   btnEl.textContent = 'Envoi en cours…';
-  // Cloudflare Worker (backup collecte)
-  fetch('https://holy-queen-49f8.kazmiisrichwtf.workers.dev/', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({email})
-  }).catch(()=>{});
-  // Systeme.io — déclenche la séquence email automatique
-  addToSysteme(email, tag || 'landing-page');
-  setTimeout(()=>{ window.location.href = redirect || 'merci.html'; }, 700);
+  sendToBrevo(email);
+  setTimeout(() => { window.location.href = 'merci.html'; }, 800);
 }
 
-function shakeForm(row){row.style.borderColor='rgba(255,69,69,0.6)';row.style.boxShadow='0 0 0 4px rgba(255,69,69,0.08)';setTimeout(()=>{row.style.borderColor='';row.style.boxShadow='';},2000);}
+function shakeForm(row){
+  row.style.borderColor='rgba(255,69,69,0.6)';
+  row.style.boxShadow='0 0 0 4px rgba(255,69,69,0.08)';
+  setTimeout(()=>{row.style.borderColor='';row.style.boxShadow='';},2000);
+}
 
+// Formulaire hero (haut de page)
 function handleSubmit(){
-  const e=document.getElementById('emailInput').value.trim();
-  const row=document.querySelector('.form-wrap .form-row');
-  if(!isValidEmail(e)){shakeForm(row);return;}
-  subscribeEmail(e, document.querySelector('.form-wrap .cta-btn'), 'merci.html', 'landing-page');
+  const e = document.getElementById('emailInput').value.trim();
+  if(!isValidEmail(e)){shakeForm(document.querySelector('.form-wrap .form-row'));return;}
+  subscribeEmail(e, document.querySelector('.form-wrap .cta-btn'));
 }
+
+// Formulaire final CTA (bas de page)
 function handleSubmit2(){
-  const e=document.getElementById('emailInput2').value.trim();
-  const row=document.querySelector('.final-form .form-row');
-  if(!isValidEmail(e)){shakeForm(row);return;}
-  subscribeEmail(e, document.querySelector('.final-form .cta-btn'), 'merci.html', 'landing-page');
+  const e = document.getElementById('emailInput2').value.trim();
+  if(!isValidEmail(e)){shakeForm(document.querySelector('.final-form .form-row'));return;}
+  subscribeEmail(e, document.querySelector('.final-form .cta-btn'));
 }
+
 document.getElementById('emailInput').addEventListener('keypress',e=>{if(e.key==='Enter')handleSubmit();});
 document.getElementById('emailInput2').addEventListener('keypress',e=>{if(e.key==='Enter')handleSubmit2();});
 
-// EXIT-INTENT POPUP
+// ─── EXIT-INTENT POPUP ────────────────────────────────────────────────────────
 let popupShown = false;
 function showPopup(){
-  if(popupShown) return;
+  if(popupShown || sessionStorage.getItem('popupDismissed')) return;
   popupShown = true;
   document.getElementById('exitPopup').classList.add('active');
 }
 function closePopup(){
   document.getElementById('exitPopup').classList.remove('active');
 }
+
+// Popup — Brevo + message succès inline puis redirect
 function handlePopupSubmit(){
-  const e=document.getElementById('popupEmail').value.trim();
-  if(!isValidEmail(e)){document.getElementById('popupEmail').style.borderColor='rgba(255,69,69,0.5)';setTimeout(()=>document.getElementById('popupEmail').style.borderColor='',2000);return;}
-  const btn=document.querySelector('.popup-cta-btn');
-  btn.textContent='Envoi…';btn.disabled=true;btn.style.opacity='.7';
-  // Worker
-  fetch('https://holy-queen-49f8.kazmiisrichwtf.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e})}).catch(()=>{});
-  // Systeme.io — tag différent pour segmenter exit-popup
-  addToSysteme(e, 'exit-popup');
-  setTimeout(()=>{window.location.href='merci.html';},700);
+  const e = document.getElementById('popupEmail').value.trim();
+  const input = document.getElementById('popupEmail');
+  if(!isValidEmail(e)){
+    input.style.borderColor='rgba(255,69,69,0.5)';
+    input.style.boxShadow='0 0 0 3px rgba(255,69,69,0.1)';
+    setTimeout(()=>{input.style.borderColor='';input.style.boxShadow='';},2000);
+    return;
+  }
+  const btn = document.querySelector('.popup-cta-btn');
+  btn.textContent = 'Envoi…'; btn.disabled = true; btn.style.opacity = '.7';
+  sendToBrevo(e);
+  // Message succès inline dans le popup
+  setTimeout(()=>{
+    document.querySelector('.popup-form').innerHTML =
+      '<div style="padding:12px 0;"><p style="font-size:26px;margin-bottom:12px;">✅</p>' +
+      '<p style="font-family:\'Syne\',sans-serif;font-weight:700;font-size:16px;color:#EDE8DF;margin-bottom:8px;">C\'est envoyé !</p>' +
+      '<p style="font-size:13px;color:#6B6455;line-height:1.6;">Vérifie ta boîte email<br><span style="color:#F0D080;">(et tes spams)</span> dans les prochaines minutes.</p></div>';
+    setTimeout(()=>{ window.location.href='merci.html'; }, 2000);
+  }, 800);
 }
+
 document.getElementById('popupEmail').addEventListener('keypress',e=>{if(e.key==='Enter')handlePopupSubmit();});
-document.addEventListener('mouseleave',e=>{if(e.clientY<=0 && !sessionStorage.getItem('popupDismissed'))showPopup();});
-document.getElementById('exitPopup').addEventListener('click',function(e){if(e.target===this){closePopup();sessionStorage.setItem('popupDismissed','1');}});
-document.querySelector('.popup-skip').addEventListener('click',()=>sessionStorage.setItem('popupDismissed','1'));
+document.addEventListener('mouseleave',e=>{if(e.clientY<=0)showPopup();});
+document.getElementById('exitPopup').addEventListener('click',function(e){
+  if(e.target===this){closePopup();sessionStorage.setItem('popupDismissed','1');}
+});
+document.querySelector('.popup-skip').addEventListener('click',()=>{
+  closePopup();sessionStorage.setItem('popupDismissed','1');
+});
 
 // STICKY CTA BAR - show when hero form scrolls out of view
 (function(){
@@ -515,5 +531,14 @@ window.addEventListener('scroll',()=>{
   }
 },{passive:true,once:true});
 </script>
+<script>
+  window.REQUIRED_CODE_ERROR_MESSAGE = 'Veuillez choisir un code pays';
+  window.LOCALE = 'fr';
+  window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "Email invalide. Vérifie le format et réessaie.";
+  window.REQUIRED_ERROR_MESSAGE = "Ce champ est obligatoire.";
+  window.GENERIC_INVALID_MESSAGE = "Information invalide. Vérifie et réessaie.";
+  var AUTOHIDE = Boolean(0);
+</script>
+<script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
 </body>
 </html>
