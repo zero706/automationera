@@ -31,7 +31,7 @@ export default async function LeadDetailPage({
   if (!lead) notFound();
   const row = lead as Lead;
 
-  const { data: related } = await supabase
+  const { data: relatedRaw } = await supabase
     .from("leads")
     .select("id, title, subreddit, intent_score")
     .eq("user_id", user.id)
@@ -39,6 +39,10 @@ export default async function LeadDetailPage({
     .neq("id", row.id)
     .order("intent_score", { ascending: false })
     .limit(5);
+
+  const related = (relatedRaw ?? []) as Array<
+    Pick<Lead, "id" | "title" | "subreddit" | "intent_score">
+  >;
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -91,7 +95,7 @@ export default async function LeadDetailPage({
 
       <LeadReplyEditor lead={row} />
 
-      {related && related.length > 0 && (
+      {related.length > 0 && (
         <div className="glass-card p-6">
           <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-3">
             More from r/{row.subreddit}

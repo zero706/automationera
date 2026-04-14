@@ -24,7 +24,8 @@ export default async function MonitorsPage() {
     .eq("id", user.id)
     .single();
 
-  const limits = getPlanLimits((profile as Profile)?.plan ?? "free");
+  const typedProfile = profile as Profile | null;
+  const limits = getPlanLimits(typedProfile?.plan ?? "free");
   const safeNumber = (n: number) => (isFinite(n) ? n : 9999);
 
   return (

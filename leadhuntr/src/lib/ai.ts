@@ -1,4 +1,8 @@
-import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
+import {
+  GoogleGenerativeAI,
+  SchemaType,
+  type ResponseSchema,
+} from "@google/generative-ai";
 import type { AiScoreResult, RedditPost } from "@/types";
 
 function getClient() {
@@ -7,7 +11,7 @@ function getClient() {
   return new GoogleGenerativeAI(key);
 }
 
-const SCORE_SCHEMA = {
+const SCORE_SCHEMA: ResponseSchema = {
   type: SchemaType.OBJECT,
   properties: {
     intent_score: { type: SchemaType.NUMBER },
@@ -25,7 +29,7 @@ const SCORE_SCHEMA = {
     suggested_reply: { type: SchemaType.STRING },
   },
   required: ["intent_score", "intent_category", "summary", "suggested_reply"],
-} as const;
+};
 
 const SYSTEM_INSTRUCTION = `You are an expert B2B SaaS prospecting analyst.
 Score Reddit posts for buying intent and craft a helpful, non-spammy reply.
