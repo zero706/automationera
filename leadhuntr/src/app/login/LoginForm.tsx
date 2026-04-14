@@ -11,6 +11,7 @@ export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") ?? "/dashboard";
+  const urlError = searchParams.get("error");
 
   const [mode, setMode] = useState<"password" | "magic">("password");
   const [email, setEmail] = useState("");
@@ -51,6 +52,11 @@ export function LoginForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
+      {urlError && (
+        <div className="rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-xs text-red-300">
+          {urlError}
+        </div>
+      )}
       <Input
         type="email"
         label="Email"
