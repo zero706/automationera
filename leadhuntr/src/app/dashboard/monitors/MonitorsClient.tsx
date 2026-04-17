@@ -29,6 +29,7 @@ export function MonitorsClient({
   const [monitors, setMonitors] = useState(initialMonitors);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Monitor | null>(null);
+  const [scanning, setScanning] = useState(false);
 
   const canCreate = monitors.length < limits.maxMonitors;
 
@@ -40,6 +41,28 @@ export function MonitorsClient({
   function startEdit(m: Monitor) {
     setEditing(m);
     setOpen(true);
+  }
+
+  async function runScan() {
+    setScanning(true);
+    try {
+      const res = await fetch("/api/scan", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Scan failed");
+      toast(
+        data.leadsFound > 0
+          ? `Scan complete — ${data.leadsFound} new lead${data.leadsFound === 1 ? "" : "s"} found`
+          : "Scan complete — no new leads",
+        data.leadsFound > 0 ? "success" : "info",
+      );
+      router.refresh();
+      const fresh = await fetch("/api/monitors").then((r) => r.json());
+      if (Array.isArray(fresh.monitors)) setMonitors(fresh.monitors);
+    } catch (err) {
+      toast(err instanceof Error ? err.message : "Scan failed", "error");
+    } finally {
+      setScanning(false);
+    }
   }
 
   async function saveMonitor(payload: Partial<Monitor>) {
@@ -92,9 +115,19 @@ export function MonitorsClient({
             Surveille des subreddits et mots-clés pour trouver des leads en temps réel.
           </p>
         </div>
-        <Button onClick={startCreate} disabled={!canCreate}>
-          + New monitor
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="secondary"
+            onClick={runScan}
+            loading={scanning}
+            disabled={monitors.length === 0}
+          >
+            {scanning ? "Scanning…" : "⚡ Scan now"}
+          </Button>
+          <Button onClick={startCreate} disabled={!canCreate}>
+            + New monitor
+          </Button>
+        </div>
       </div>
 
       {!canCreate && (
