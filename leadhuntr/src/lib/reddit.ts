@@ -1,57 +1,10 @@
 import type { RedditPost } from "@/types";
 
-const REDDIT_TOKEN_URL = "https://www.reddit.com/api/v1/access_token";
-const REDDIT_API_BASE = "https://oauth.reddit.com";
-
-interface CachedToken {
-  token: string;
-  expiresAt: number;
-}
-
-let cachedToken: CachedToken | null = null;
-
-async function getRedditAccessToken(): Promise<string> {
-  if (cachedToken && cachedToken.expiresAt > Date.now() + 60_000) {
-    return cachedToken.token;
-  }
-
-  const clientId = process.env.REDDIT_CLIENT_ID;
-  const clientSecret = process.env.REDDIT_CLIENT_SECRET;
-  const userAgent = process.env.REDDIT_USER_AGENT ?? "LeadHuntr/1.0";
-
-  if (!clientId || !clientSecret) {
-    throw new Error("Missing REDDIT_CLIENT_ID or REDDIT_CLIENT_SECRET");
-  }
-
-  const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
-
-  const res = await fetch(REDDIT_TOKEN_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${auth}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-      "User-Agent": userAgent,
-    },
-    body: "grant_type=client_credentials",
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error(`Reddit token request failed: ${res.status}`);
-  }
-
-  const data = (await res.json()) as {
-    access_token: string;
-    expires_in: number;
-  };
-
-  cachedToken = {
-    token: data.access_token,
-    expiresAt: Date.now() + data.expires_in * 1000,
-  };
-
-  return cachedToken.token;
-}
+// Uses the public Reddit JSON API — no OAuth credentials required.
+// Rate limit: ~1 req/sec per IP (plenty for a cron job).
+const REDDIT_API_BASE = "https://www.reddit.com";
+const USER_AGENT =
+  process.env.REDDIT_USER_AGENT ?? "LeadHuntr/1.0 (lead monitoring tool)";
 
 interface RedditListingChild {
   kind: string;
@@ -78,25 +31,21 @@ interface RedditListingResponse {
 }
 
 /**
- * Fetch newest posts from a subreddit (up to 100).
+ * Fetch newest posts from a subreddit using the public JSON API.
+ * No Reddit credentials needed.
  */
 export async function fetchSubredditPosts(
   subreddit: string,
   limit = 50,
 ): Promise<RedditPost[]> {
-  const token = await getRedditAccessToken();
-  const userAgent = process.env.REDDIT_USER_AGENT ?? "LeadHuntr/1.0";
-
-  const url = `${REDDIT_API_BASE}/r/${encodeURIComponent(
-    subreddit,
-  )}/new.json?limit=${Math.min(limit, 100)}&raw_json=1`;
+  const url = `${REDDIT_API_BASE}/r/${encodeURIComponent(subreddit)}/new.json?limit=${Math.min(limit, 100)}&raw_json=1`;
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${token}`,
-      "User-Agent": userAgent,
+      "User-Agent": USER_AGENT,
+      Accept: "application/json",
     },
-    cache: "no-store",
+    next: { revalidate: 0 },
   });
 
   if (!res.ok) {
