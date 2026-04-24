@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchSubredditPosts, filterPostsByKeywords } from "@/lib/reddit";
 import { scorePost } from "@/lib/ai";
 import { getPlanLimits } from "@/lib/plans";
@@ -11,7 +10,7 @@ export const maxDuration = 120;
 export const dynamic = "force-dynamic";
 
 const MIN_SCORE = 30;
-const MAX_PER_SCAN = 10; // cap per manual scan to keep it fast
+const MAX_PER_SCAN = 10;
 
 export async function POST() {
   const supabase = createClient();
@@ -20,56 +19,113 @@ export async function POST() {
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const admin = createAdminClient();
+  const [{ data: monitors, error: monErr }, { data: profileRow, error: profErr }] =
+    await Promise.all([
+      supabase
+        .from("monitors")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("is_active", true),
+      supabase.from("profiles").select("*").eq("id", user.id).single(),
+    ]);
 
-  const [{ data: monitors }, { data: profileRow }] = await Promise.all([
-    admin.from("monitors").select("*").eq("user_id", user.id).eq("is_active", true),
-    admin.from("profiles").select("*").eq("id", user.id).single(),
-  ]);
+  if (monErr) {
+    return NextResponse.json(
+      { error: `Failed to fetch monitors: ${monErr.message}` },
+      { status: 500 },
+    );
+  }
 
   if (!monitors?.length) {
     return NextResponse.json({ ok: true, leadsFound: 0, message: "No active monitors" });
   }
-  if (!profileRow) {
-    return NextResponse.json({ error: "Profile not found" }, { status: 400 });
+
+  if (profErr || !profileRow) {
+    return NextResponse.json(
+      { error: `Profile not found: ${profErr?.message ?? "no row"}` },
+      { status: 400 },
+    );
   }
 
   const profile = profileRow as Profile;
   const limits = getPlanLimits(profile.plan);
   let totalLeads = 0;
-  const errors: string[] = [];
+
+  const diagnostics: Array<{
+    monitor: string;
+    subredditsOk: number;
+    subredditsFailed: string[];
+    postsFetched: number;
+    postsMatchedKeywords: number;
+    postsAlreadySeen: number;
+    postsToScore: number;
+    scores: Array<{ title: string; score: number }>;
+    leadsInserted: number;
+    insertErrors: string[];
+    error?: string;
+  }> = [];
 
   for (const monitor of monitors as Monitor[]) {
+    const diag: (typeof diagnostics)[number] = {
+      monitor: monitor.name,
+      subredditsOk: 0,
+      subredditsFailed: [],
+      postsFetched: 0,
+      postsMatchedKeywords: 0,
+      postsAlreadySeen: 0,
+      postsToScore: 0,
+      scores: [],
+      leadsInserted: 0,
+      insertErrors: [],
+    };
+
     try {
-      // Fetch posts from all subreddits in parallel
       const settled = await Promise.allSettled(
         monitor.subreddits.map((sub) => fetchSubredditPosts(sub, 50)),
       );
-      const allPosts: RedditPost[] = settled
-        .filter((r): r is PromiseFulfilledResult<RedditPost[]> => r.status === "fulfilled")
-        .flatMap((r) => r.value);
+
+      const allPosts: RedditPost[] = [];
+      for (let i = 0; i < settled.length; i++) {
+        const r = settled[i];
+        if (r.status === "fulfilled") {
+          diag.subredditsOk++;
+          allPosts.push(...r.value);
+        } else {
+          diag.subredditsFailed.push(
+            `r/${monitor.subreddits[i]}: ${r.reason instanceof Error ? r.reason.message : "failed"}`,
+          );
+        }
+      }
+      diag.postsFetched = allPosts.length;
 
       const filtered = filterPostsByKeywords(
         allPosts,
         monitor.keywords,
         monitor.negative_keywords,
       );
+      diag.postsMatchedKeywords = filtered.length;
 
-      // Skip posts already stored
       const ids = filtered.map((p) => p.id);
       const { data: existing } = ids.length
-        ? await admin.from("leads").select("reddit_post_id").in("reddit_post_id", ids)
+        ? await supabase.from("leads").select("reddit_post_id").in("reddit_post_id", ids)
         : { data: [] as { reddit_post_id: string }[] };
 
       const seen = new Set((existing ?? []).map((l) => l.reddit_post_id));
+      diag.postsAlreadySeen = filtered.length - filtered.filter((p) => !seen.has(p.id)).length;
       const fresh = filtered.filter((p) => !seen.has(p.id)).slice(0, MAX_PER_SCAN);
+      diag.postsToScore = fresh.length;
 
       for (const post of fresh) {
         try {
           const scored = await scorePost(post, monitor.keywords);
+          diag.scores.push({
+            title: post.title.slice(0, 80),
+            score: scored.intent_score,
+          });
+
           if (scored.intent_score < MIN_SCORE) continue;
 
-          const { error: insertErr } = await admin.from("leads").insert({
+          const { error: insertErr } = await supabase.from("leads").insert({
             monitor_id: monitor.id,
             user_id: user.id,
             reddit_post_id: post.id,
@@ -88,23 +144,33 @@ export async function POST() {
             reddit_created_at: new Date(post.created_utc * 1000).toISOString(),
           });
 
-          if (!insertErr) totalLeads++;
-        } catch {
-          // skip individual post errors silently
+          if (insertErr) {
+            diag.insertErrors.push(insertErr.message);
+          } else {
+            diag.leadsInserted++;
+            totalLeads++;
+          }
+        } catch (e) {
+          diag.insertErrors.push(
+            `Score/insert failed: ${e instanceof Error ? e.message : "unknown"}`,
+          );
         }
       }
 
-      await admin
+      await supabase
         .from("monitors")
         .update({ last_scanned_at: new Date().toISOString() })
-        .eq("id", monitor.id);
+        .eq("id", monitor.id)
+        .eq("user_id", user.id);
     } catch (e) {
-      errors.push(`Monitor "${monitor.name}": ${e instanceof Error ? e.message : "failed"}`);
+      diag.error = e instanceof Error ? e.message : "failed";
     }
+
+    diagnostics.push(diag);
   }
 
   if (totalLeads > 0) {
-    await admin
+    await supabase
       .from("profiles")
       .update({
         leads_found_today: profile.leads_found_today + totalLeads,
@@ -117,6 +183,6 @@ export async function POST() {
     ok: true,
     leadsFound: totalLeads,
     monitorsScanned: monitors.length,
-    ...(errors.length ? { errors } : {}),
+    diagnostics,
   });
 }

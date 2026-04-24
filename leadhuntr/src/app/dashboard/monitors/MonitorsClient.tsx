@@ -30,6 +30,7 @@ export function MonitorsClient({
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Monitor | null>(null);
   const [scanning, setScanning] = useState(false);
+  const MIN_SCORE_DISPLAY = 30;
 
   const canCreate = monitors.length < limits.maxMonitors;
 
@@ -49,12 +50,40 @@ export function MonitorsClient({
       const res = await fetch("/api/scan", { method: "POST" });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Scan failed");
-      toast(
-        data.leadsFound > 0
-          ? `Scan complete — ${data.leadsFound} new lead${data.leadsFound === 1 ? "" : "s"} found`
-          : "Scan complete — no new leads",
-        data.leadsFound > 0 ? "success" : "info",
-      );
+
+      if (data.leadsFound > 0) {
+        toast(
+          `Scan complete — ${data.leadsFound} new lead${data.leadsFound === 1 ? "" : "s"} found!`,
+          "success",
+        );
+      } else if (data.diagnostics?.length) {
+        const d = data.diagnostics[0];
+        const parts: string[] = [];
+        if (d.subredditsFailed?.length)
+          parts.push(`${d.subredditsFailed.length} subreddit(s) failed`);
+        if (d.postsFetched === 0) parts.push("0 posts fetched from Reddit");
+        else if (d.postsMatchedKeywords === 0)
+          parts.push(`${d.postsFetched} posts fetched, 0 matched keywords`);
+        else if (d.postsAlreadySeen > 0 && d.postsToScore === 0)
+          parts.push(`${d.postsMatchedKeywords} matched but all already seen`);
+        else if (d.postsToScore > 0 && d.scores?.length === 0)
+          parts.push("AI scoring failed");
+        else if (d.scores?.length > 0) {
+          const best = Math.max(...d.scores.map((s: { score: number }) => s.score));
+          parts.push(
+            `${d.scores.length} scored, best = ${best}/100 (min ${MIN_SCORE_DISPLAY} to keep)`,
+          );
+        }
+        if (d.insertErrors?.length) parts.push(d.insertErrors[0]);
+        toast(
+          `No new leads. ${parts.join(" — ") || "Try broader keywords."}`,
+          "info",
+        );
+        console.log("[Scan diagnostics]", data.diagnostics);
+      } else {
+        toast("Scan complete — no new leads", "info");
+      }
+
       router.refresh();
       const fresh = await fetch("/api/monitors").then((r) => r.json());
       if (Array.isArray(fresh.monitors)) setMonitors(fresh.monitors);

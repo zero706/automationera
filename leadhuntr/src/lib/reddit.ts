@@ -46,6 +46,7 @@ export async function fetchSubredditPosts(
       Accept: "application/json",
     },
     next: { revalidate: 0 },
+    redirect: "follow",
   });
 
   if (!res.ok) {
@@ -54,7 +55,18 @@ export async function fetchSubredditPosts(
     );
   }
 
+  const contentType = res.headers.get("content-type") ?? "";
+  if (!contentType.includes("json")) {
+    throw new Error(
+      `Reddit returned non-JSON for r/${subreddit}: ${contentType}`,
+    );
+  }
+
   const data = (await res.json()) as RedditListingResponse;
+
+  if (!data?.data?.children) {
+    throw new Error(`Reddit returned unexpected structure for r/${subreddit}`);
+  }
 
   return data.data.children
     .filter((c) => c.kind === "t3" && !c.data.stickied && !c.data.over_18)
