@@ -10,7 +10,7 @@ export const maxDuration = 120;
 export const dynamic = "force-dynamic";
 
 const MIN_SCORE = 30;
-const MAX_PER_SCAN = 10;
+const MAX_PER_SCAN = 5;
 
 export async function POST() {
   const supabase = createClient();
@@ -115,7 +115,9 @@ export async function POST() {
       const fresh = filtered.filter((p) => !seen.has(p.id)).slice(0, MAX_PER_SCAN);
       diag.postsToScore = fresh.length;
 
-      for (const post of fresh) {
+      for (let pi = 0; pi < fresh.length; pi++) {
+        if (pi > 0) await new Promise((r) => setTimeout(r, 4500));
+        const post = fresh[pi];
         try {
           const scored = await scorePost(post, monitor.keywords);
           diag.scores.push({

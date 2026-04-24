@@ -48,9 +48,32 @@ Suggested reply rules:
 - Mention a solution subtly, not as an ad.
 - Under 80 words.`;
 
-/**
- * Score a single Reddit post with Gemini.
- */
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function callGeminiWithRetry<T>(
+  fn: () => Promise<T>,
+  maxRetries = 3,
+): Promise<T> {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      const isRateLimit =
+        msg.includes("429") ||
+        msg.includes("quota") ||
+        msg.includes("rate") ||
+        msg.includes("RESOURCE_EXHAUSTED");
+      if (!isRateLimit || attempt === maxRetries) throw err;
+      const delay = Math.pow(2, attempt + 1) * 1000;
+      await sleep(delay);
+    }
+  }
+  throw new Error("Unreachable");
+}
+
 export async function scorePost(
   post: RedditPost,
   keywords: string[],
@@ -74,7 +97,9 @@ Keywords the user is monitoring: ${keywords.join(", ")}
 
 Analyze this post and return the JSON.`;
 
-  const result = await model.generateContent(prompt);
+  const result = await callGeminiWithRetry(() =>
+    model.generateContent(prompt),
+  );
   const text = result.response.text();
 
   let parsed: AiScoreResult;
@@ -92,10 +117,6 @@ Analyze this post and return the JSON.`;
   return parsed;
 }
 
-/**
- * Regenerate a suggested reply for an existing lead (used by the
- * "Get AI Reply" button in the dashboard).
- */
 export async function generateReply(
   title: string,
   body: string,
@@ -121,6 +142,8 @@ ${productDescription ? `\nProduct context: ${productDescription}` : ""}
 
 Reply:`;
 
-  const result = await model.generateContent(prompt);
+  const result = await callGeminiWithRetry(() =>
+    model.generateContent(prompt),
+  );
   return result.response.text().trim();
 }
