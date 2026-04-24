@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchSubredditPosts, filterPostsByKeywords } from "@/lib/reddit";
 import { scorePost } from "@/lib/ai";
 import { getPlanLimits } from "@/lib/plans";
@@ -9,8 +10,16 @@ export const runtime = "nodejs";
 export const maxDuration = 120;
 export const dynamic = "force-dynamic";
 
-const MIN_SCORE = 30;
-const MAX_PER_SCAN = 5;
+const MIN_SCORE = 15;
+const MAX_PER_SCAN = 3;
+
+function getWriteClient() {
+  try {
+    return createAdminClient();
+  } catch {
+    return null;
+  }
+}
 
 export async function POST() {
   const supabase = createClient();
@@ -18,6 +27,9 @@ export async function POST() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const admin = getWriteClient();
+  const writer = admin ?? supabase;
 
   const [{ data: monitors, error: monErr }, { data: profileRow, error: profErr }] =
     await Promise.all([
@@ -59,7 +71,7 @@ export async function POST() {
     postsMatchedKeywords: number;
     postsAlreadySeen: number;
     postsToScore: number;
-    scores: Array<{ title: string; score: number }>;
+    scores: Array<{ title: string; score: number; category: string }>;
     leadsInserted: number;
     insertErrors: string[];
     error?: string;
@@ -116,18 +128,19 @@ export async function POST() {
       diag.postsToScore = fresh.length;
 
       for (let pi = 0; pi < fresh.length; pi++) {
-        if (pi > 0) await new Promise((r) => setTimeout(r, 4500));
+        if (pi > 0) await new Promise((r) => setTimeout(r, 5000));
         const post = fresh[pi];
         try {
           const scored = await scorePost(post, monitor.keywords);
           diag.scores.push({
             title: post.title.slice(0, 80),
             score: scored.intent_score,
+            category: scored.intent_category,
           });
 
           if (scored.intent_score < MIN_SCORE) continue;
 
-          const { error: insertErr } = await supabase.from("leads").insert({
+          const leadRow = {
             monitor_id: monitor.id,
             user_id: user.id,
             reddit_post_id: post.id,
@@ -144,7 +157,14 @@ export async function POST() {
             suggested_reply: limits.aiReplies ? scored.suggested_reply : null,
             status: "new",
             reddit_created_at: new Date(post.created_utc * 1000).toISOString(),
-          });
+          };
+
+          let { error: insertErr } = await writer.from("leads").insert(leadRow);
+
+          if (insertErr && writer !== supabase) {
+            const fallback = await supabase.from("leads").insert(leadRow);
+            insertErr = fallback.error;
+          }
 
           if (insertErr) {
             diag.insertErrors.push(insertErr.message);
@@ -159,11 +179,10 @@ export async function POST() {
         }
       }
 
-      await supabase
+      await writer
         .from("monitors")
         .update({ last_scanned_at: new Date().toISOString() })
-        .eq("id", monitor.id)
-        .eq("user_id", user.id);
+        .eq("id", monitor.id);
     } catch (e) {
       diag.error = e instanceof Error ? e.message : "failed";
     }
@@ -172,7 +191,7 @@ export async function POST() {
   }
 
   if (totalLeads > 0) {
-    await supabase
+    await writer
       .from("profiles")
       .update({
         leads_found_today: profile.leads_found_today + totalLeads,

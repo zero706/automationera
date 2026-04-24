@@ -30,7 +30,7 @@ export function MonitorsClient({
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Monitor | null>(null);
   const [scanning, setScanning] = useState(false);
-  const MIN_SCORE_DISPLAY = 30;
+  const MIN_SCORE_DISPLAY = 15;
 
   const canCreate = monitors.length < limits.maxMonitors;
 
